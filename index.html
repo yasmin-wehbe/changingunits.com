@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Converter — Free Online Conversion Tools | ChangingUnits</title>
+  <meta name="description" content="Free unit converter for length, weight, temperature, area, currency, and 500+ more units. Instant results with real-world comparisons.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.changingunits.com/">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"ChangingUnits","url":"https://www.changingunits.com/","description":"Free online unit converter for 500+ unit types.","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.changingunits.com/search/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent:       #4F46E5;
+      --accent-light: #EEF2FF;
+      --accent-dark:  #3730A3;
+      --bg:           #FFFFFF;
+      --bg-2:         #F8F8F7;
+      --bg-3:         #F2F2F0;
+      --t1:           #111110;
+      --t2:           #6B6B68;
+      --t3:           #9B9B96;
+      --border:       rgba(0,0,0,0.08);
+      --border-s:     rgba(0,0,0,0.14);
+      --r1: 4px; --r2: 8px; --r3: 12px;
+      --sh: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --font: 'Plus Jakarta Sans',sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font); background: var(--bg-2); color: var(--t1); min-height: 100vh; line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      height: 60px; background: #fff;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 24px;
+    }
+    .logo { font-size: 17px; font-weight: 600; color: var(--t1); letter-spacing: -0.4px; white-space: nowrap; }
+    .logo span { color: var(--accent); }
+    .nav-search { flex: 1; max-width: 480px; position: relative; }
+    .nav-search input {
+      width: 100%; height: 36px;
+      border: 1px solid var(--border-s); border-radius: 20px;
+      background: var(--bg-2); padding: 0 14px 0 38px;
+      font-family: var(--font); font-size: 14px; color: var(--t1); outline: none;
+      transition: border-color 0.15s;
+    }
+    .nav-search input:focus { border-color: var(--accent); background: var(--bg); }
+    .nav-search input::placeholder { color: var(--t3); }
+    .nav-search .si { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--t3); pointer-events: none; }
+    .search-dropdown {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: var(--bg); border: 1px solid var(--border-s);
+      border-radius: var(--r2); box-shadow: var(--sh);
+      overflow: hidden; display: none; z-index: 200;
+    }
+    .search-dropdown.open { display: block; }
+    .si-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; cursor: pointer; font-size: 13px; transition: background 0.1s; }
+    .si-item:hover { background: var(--bg-2); }
+    .si-icon { width: 28px; height: 28px; border-radius: var(--r1); background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; color: var(--accent); }
+    .si-name { font-weight: 500; color: var(--t1); }
+    .si-cat { font-size: 11px; color: var(--t3); }
+    .nav-links { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+    .nav-link { padding: 5px 10px; border-radius: var(--r1); font-size: 13px; font-weight: 500; color: var(--t2); transition: background 0.15s, color 0.15s; white-space: nowrap; }
+    .nav-link:hover { background: var(--bg-2); color: var(--t1); text-decoration: none; }
+
+    /* PAGE */
+    .page-wrap { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* HERO */
+    .hero { text-align: center; padding: 52px 0 40px; }
+    .hero-title { font-size: 38px; font-weight: 600; color: var(--t1); letter-spacing: -0.8px; line-height: 1.15; }
+    .hero-title span { color: var(--accent); }
+    .hero-sub { font-size: 16px; color: var(--t2); margin-top: 10px; }
+
+    /* HERO SEARCH */
+    .hero-search { position: relative; max-width: 520px; margin: 28px auto 0; }
+    .hero-search input {
+      width: 100%; height: 52px;
+      border: 1.5px solid var(--border-s); border-radius: 28px;
+      background: var(--bg); padding: 0 20px 0 48px;
+      font-family: var(--font); font-size: 16px; color: var(--t1);
+      outline: none; transition: border-color 0.15s;
+      box-shadow: var(--sh);
+    }
+    .hero-search input:focus { border-color: var(--accent); }
+    .hero-search input::placeholder { color: var(--t3); }
+    .hero-search .hsi { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--t3); pointer-events: none; }
+    .hero-search-drop {
+      position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+      background: var(--bg); border: 1px solid var(--border-s);
+      border-radius: var(--r3); box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      overflow: hidden; display: none; z-index: 200; text-align: left;
+    }
+    .hero-search-drop.open { display: block; }
+
+    /* SECTION */
+    .section { margin-top: 48px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-title { font-size: 13px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.07em; }
+    .section-link { font-size: 13px; color: var(--accent); }
+
+    /* TOP CONVERTERS (localStorage) */
+    .top-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .top-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 14px;
+      display: flex; flex-direction: column; gap: 4px;
+      box-shadow: var(--sh); transition: border-color 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+    }
+    .top-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(79,70,229,0.12); text-decoration: none; }
+    .top-card-name { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .top-card-meta { display: flex; align-items: center; justify-content: space-between; }
+    .top-card-cat { font-size: 11px; color: var(--t3); }
+    .top-card-count {
+      font-size: 10px; font-weight: 700;
+      color: var(--accent); background: var(--accent-light);
+      padding: 1px 6px; border-radius: 3px;
+    }
+
+    /* CATEGORY GRID */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .cat-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 16px 14px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+      box-shadow: var(--sh); transition: border-color 0.15s, box-shadow 0.15s;
+      text-decoration: none; cursor: pointer;
+    }
+    .cat-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(79,70,229,0.12); text-decoration: none; }
+    .cat-emoji { font-size: 22px; line-height: 1; }
+    .cat-name { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .cat-count { font-size: 11px; color: var(--t3); }
+
+    /* POPULAR CONVERTERS */
+    .pop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+    .pop-link {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 11px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; font-weight: 500; color: var(--t2);
+      box-shadow: var(--sh); transition: all 0.15s; gap: 8px;
+      text-decoration: none;
+    }
+    .pop-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .pop-link svg { flex-shrink: 0; opacity: 0.3; }
+    .pop-link:hover svg { opacity: 1; }
+
+    /* FUN TEASER */
+    .fun-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r3); padding: 24px;
+      box-shadow: var(--sh); display: flex;
+      align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px; margin-top: 48px;
+    }
+    .fun-left { flex: 1; min-width: 200px; }
+    .fun-title { font-size: 16px; font-weight: 600; color: var(--t1); }
+    .fun-desc { font-size: 13px; color: var(--t2); margin-top: 4px; }
+    .fun-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .fun-pill {
+      font-size: 12px; padding: 4px 10px; border-radius: 20px;
+      background: var(--accent-light); color: var(--accent);
+      font-weight: 500; text-decoration: none; transition: background 0.15s;
+    }
+    .fun-pill:hover { background: var(--accent); color: #fff; text-decoration: none; }
+    .fun-emoji { font-size: 42px; flex-shrink: 0; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); background: var(--bg); padding: 28px 24px; margin-top: 60px; }
+    .footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .footer-logo { font-size: 15px; font-weight: 600; color: var(--t1); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: var(--t2); }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 11px; color: var(--t3); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .section { animation: fadeUp 0.3s ease both; }
+    .section:nth-child(2) { animation-delay: 0.05s; }
+    .section:nth-child(3) { animation-delay: 0.10s; }
+    .section:nth-child(4) { animation-delay: 0.15s; }
+
+    /* MOBILE */
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .nav { padding: 0 16px; gap: 12px; }
+      .page-wrap { padding: 0 16px 60px; }
+      .hero { padding: 32px 0 28px; }
+      .hero-title { font-size: 26px; }
+      .cat-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFLK3PVX9B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JFLK3PVX9B');
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">Changing<span>Units</span></a>
+  <div class="nav-search">
+    <svg class="si" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="navSearch" placeholder="Search any conversion…" autocomplete="off" aria-label="Search">
+    <div class="search-dropdown" id="navDrop" role="listbox"></div>
+  </div>
+  <nav class="nav-links" aria-label="Main categories">
+    <a href="/length/" class="nav-link">Length</a>
+    <a href="/weight/" class="nav-link">Weight</a>
+    <a href="/temperature/" class="nav-link">Temp</a>
+    <a href="/area/" class="nav-link">Area</a>
+    <a href="/volume/" class="nav-link">Volume</a>
+  </nav>
+</header>
+
+<main>
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Search">
+    <h1 class="hero-title">Convert <span>anything</span> instantly</h1>
+    <p class="hero-sub">500+ units across length, weight, temperature, currency, and more.</p>
+    <div class="hero-search">
+      <svg class="hsi" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="heroSearch" placeholder="Try "kg to lbs" or "celsius to fahrenheit"…" autocomplete="off" aria-label="Search conversions">
+      <div class="hero-search-drop" id="heroDrop" role="listbox"></div>
+    </div>
+  </section>
+
+  <!-- YOUR TOP CONVERTERS (shown only if localStorage has data) -->
+  <section class="section" id="topSection" style="display:none" aria-label="Your top converters">
+    <div class="section-head">
+      <span class="section-title">Your top converters</span>
+      <button id="clearHistory" style="font-size:11px;color:var(--t3);cursor:pointer;background:none;border:none;padding:0" aria-label="Clear history">Clear</button>
+    </div>
+    <div class="top-grid" id="topGrid"></div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section" aria-label="All categories">
+    <div class="section-head">
+      <span class="section-title">All categories</span>
+    </div>
+    <div class="cat-grid">
+      <a href="/length/" class="cat-card"><span class="cat-emoji">📏</span><span class="cat-name">Length</span><span class="cat-count">30+ converters</span></a>
+      <a href="/weight/" class="cat-card"><span class="cat-emoji">⚖️</span><span class="cat-name">Weight</span><span class="cat-count">20+ converters</span></a>
+      <a href="/temperature/" class="cat-card"><span class="cat-emoji">🌡️</span><span class="cat-name">Temperature</span><span class="cat-count">6 converters</span></a>
+      <a href="/area/" class="cat-card"><span class="cat-emoji">📐</span><span class="cat-name">Area</span><span class="cat-count">15+ converters</span></a>
+      <a href="/volume/" class="cat-card"><span class="cat-emoji">🧪</span><span class="cat-name">Volume</span><span class="cat-count">20+ converters</span></a>
+      <a href="/speed/" class="cat-card"><span class="cat-emoji">🚀</span><span class="cat-name">Speed</span><span class="cat-count">6 converters</span></a>
+      <a href="/time/" class="cat-card"><span class="cat-emoji">⏱️</span><span class="cat-name">Time</span><span class="cat-count">12 converters</span></a>
+      <a href="/data/" class="cat-card"><span class="cat-emoji">💾</span><span class="cat-name">Data</span><span class="cat-count">8 converters</span></a>
+      <a href="/energy/" class="cat-card"><span class="cat-emoji">⚡</span><span class="cat-name">Energy</span><span class="cat-count">10 converters</span></a>
+      <a href="/pressure/" class="cat-card"><span class="cat-emoji">🌬️</span><span class="cat-name">Pressure</span><span class="cat-count">8 converters</span></a>
+      <a href="/fuel/" class="cat-card"><span class="cat-emoji">⛽</span><span class="cat-name">Fuel</span><span class="cat-count">3 converters</span></a>
+      <a href="/currency/" class="cat-card"><span class="cat-emoji">💱</span><span class="cat-name">Currency</span><span class="cat-count">150+ pairs</span></a>
+      <a href="/angles/" class="cat-card"><span class="cat-emoji">📐</span><span class="cat-name">Angles</span><span class="cat-count">6 converters</span></a>
+      <a href="/frequency/" class="cat-card"><span class="cat-emoji">🔊</span><span class="cat-name">Frequency</span><span class="cat-count">4 converters</span></a>
+      <a href="/fun/" class="cat-card"><span class="cat-emoji">🎉</span><span class="cat-name">Fun Units</span><span class="cat-count">smoots, donkeys…</span></a>
+    </div>
+  </section>
+
+  <!-- POPULAR CONVERTERS -->
+  <section class="section" aria-label="Popular converters">
+    <div class="section-head">
+      <span class="section-title">Most popular</span>
+    </div>
+    <div class="pop-grid">
+      <a href="/length/cm-to-inches/" class="pop-link">cm → inches <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/weight/kg-to-lbs/" class="pop-link">kg → lbs <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/temperature/celsius-to-fahrenheit/" class="pop-link">°C → °F <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/length/km-to-miles/" class="pop-link">km → miles <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/area/sqft-to-sqm/" class="pop-link">sq ft → sq m <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/weight/lbs-to-kg/" class="pop-link">lbs → kg <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/currency/usd-to-aed/" class="pop-link">USD → AED <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/fuel/mpg-to-l100km/" class="pop-link">MPG → L/100km <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/temperature/fahrenheit-to-celsius/" class="pop-link">°F → °C <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/length/meters-to-feet/" class="pop-link">meters → feet <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/volume/liters-to-gallons/" class="pop-link">liters → gallons <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+      <a href="/energy/btu-to-joules/" class="pop-link">BTU → joules <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+    </div>
+  </section>
+
+  <!-- FUN TEASER -->
+  <div class="fun-card" role="complementary" aria-label="Fun units">
+    <div class="fun-left">
+      <div class="fun-title">Units you didn't know existed</div>
+      <div class="fun-desc">Smoots, donkeypower, Blintzes, Planck lengths — real units with ridiculous origins.</div>
+      <div class="fun-pills">
+        <a href="/fun/smoots/" class="fun-pill">Smoots</a>
+        <a href="/fun/donkeypower/" class="fun-pill">Donkeypower</a>
+        <a href="/fun/blintzes/" class="fun-pill">Blintzes</a>
+        <a href="/fun/planck-length/" class="fun-pill">Planck length</a>
+        <a href="/fun/" class="fun-pill">See all →</a>
+      </div>
+    </div>
+    <div class="fun-emoji" aria-hidden="true">🎉</div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Changing<span>Units</span></div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/glossary/">Glossary</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/disclaimer/">Disclaimer</a>
+    </div>
+    <div class="footer-copy">© 2026 ChangingUnits. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const CONVERTERS = [
+    {name:'cm to inches',cat:'Length',url:'/length/cm-to-inches/'},
+    {name:'inches to cm',cat:'Length',url:'/length/inches-to-cm/'},
+    {name:'km to miles',cat:'Length',url:'/length/km-to-miles/'},
+    {name:'meters to feet',cat:'Length',url:'/length/meters-to-feet/'},
+    {name:'kg to lbs',cat:'Weight',url:'/weight/kg-to-lbs/'},
+    {name:'lbs to kg',cat:'Weight',url:'/weight/lbs-to-kg/'},
+    {name:'grams to ounces',cat:'Weight',url:'/weight/grams-to-ounces/'},
+    {name:'celsius to fahrenheit',cat:'Temperature',url:'/temperature/celsius-to-fahrenheit/'},
+    {name:'fahrenheit to celsius',cat:'Temperature',url:'/temperature/fahrenheit-to-celsius/'},
+    {name:'celsius to kelvin',cat:'Temperature',url:'/temperature/celsius-to-kelvin/'},
+    {name:'sqft to sqm',cat:'Area',url:'/area/sqft-to-sqm/'},
+    {name:'sqm to sqft',cat:'Area',url:'/area/sqm-to-sqft/'},
+    {name:'acres to sqm',cat:'Area',url:'/area/acres-to-sqm/'},
+    {name:'mpg to l/100km',cat:'Fuel',url:'/fuel/mpg-to-l100km/'},
+    {name:'usd to aed',cat:'Currency',url:'/currency/usd-to-aed/'},
+    {name:'aed to usd',cat:'Currency',url:'/currency/aed-to-usd/'},
+    {name:'liters to gallons',cat:'Volume',url:'/volume/liters-to-gallons/'},
+    {name:'ml to fl oz',cat:'Volume',url:'/volume/ml-to-fl-oz/'},
+    {name:'btu to joules',cat:'Energy',url:'/energy/btu-to-joules/'},
+    {name:'kwh to joules',cat:'Energy',url:'/energy/kwh-to-joules/'},
+    {name:'mph to kph',cat:'Speed',url:'/speed/mph-to-kph/'},
+    {name:'psi to bar',cat:'Pressure',url:'/pressure/psi-to-bar/'},
+    {name:'degrees to radians',cat:'Angles',url:'/angles/degrees-to-radians/'},
+    {name:'smoots',cat:'Fun',url:'/fun/smoots/'},
+    {name:'donkeypower',cat:'Fun',url:'/fun/donkeypower/'},
+  ];
+
+  // ── SEARCH ────────────────────────────────────────────────
+  function makeDropdown(results, container){
+    if(!results.length){ container.classList.remove('open'); return; }
+    container.innerHTML = results.map(r=>`
+      <div class="si-item" onclick="location='${r.url}'" role="option">
+        <div class="si-icon">⇄</div>
+        <div>
+          <div class="si-name">${r.name}</div>
+          <div class="si-cat">${r.cat}</div>
+        </div>
+      </div>`).join('');
+    container.classList.add('open');
+  }
+
+  function bindSearch(inputId, dropId){
+    const inp  = document.getElementById(inputId);
+    const drop = document.getElementById(dropId);
+    inp.addEventListener('input',()=>{
+      const q = inp.value.toLowerCase().trim();
+      if(!q){ drop.classList.remove('open'); return; }
+      const hits = CONVERTERS.filter(c=> c.name.includes(q)||c.cat.toLowerCase().includes(q)).slice(0,6);
+      makeDropdown(hits, drop);
+    });
+    inp.addEventListener('keydown', e=>{ if(e.key==='Escape') drop.classList.remove('open'); });
+    document.addEventListener('click', e=>{ if(!inp.contains(e.target)) drop.classList.remove('open'); });
+  }
+  bindSearch('navSearch','navDrop');
+  bindSearch('heroSearch','heroDrop');
+
+  // ── TOP CONVERTERS FROM LOCALSTORAGE ─────────────────────
+  const KEY = 'cu_visits';
+
+  function loadTopConverters(){
+    try {
+      const stored = JSON.parse(localStorage.getItem(KEY) || '{}');
+      const entries = Object.values(stored);
+      if(entries.length < 2) return; // need at least 2 before showing
+
+      // Sort by visit count descending, take top 6
+      const top = entries
+        .sort((a,b) => b.count - a.count)
+        .slice(0, 6);
+
+      const grid = document.getElementById('topGrid');
+      grid.innerHTML = top.map(p => `
+        <a href="${p.url}" class="top-card">
+          <span class="top-card-name">${p.name}</span>
+          <div class="top-card-meta">
+            <span class="top-card-cat">${p.cat}</span>
+            <span class="top-card-count">${p.count}×</span>
+          </div>
+        </a>`).join('');
+
+      document.getElementById('topSection').style.display = 'block';
+    } catch(e) {}
+  }
+
+  document.getElementById('clearHistory').addEventListener('click', ()=>{
+    try { localStorage.removeItem(KEY); } catch(e){}
+    document.getElementById('topSection').style.display = 'none';
+  });
+
+  loadTopConverters();
+</script>
+</body>
+</html>

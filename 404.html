@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found | ChangingUnits</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
+      --bg:#FFFFFF; --bg-2:#F8F8F7;
+      --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+      --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
+      --r1:4px; --r2:8px; --r3:12px;
+      --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --font:'Plus Jakarta Sans',sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { font-size:16px; -webkit-font-smoothing:antialiased; }
+    body { font-family:var(--font); background:var(--bg-2); color:var(--t1); min-height:100vh; display:flex; flex-direction:column; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .nav { height:60px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 24px; }
+    .logo { font-size:17px; font-weight:600; color:var(--t1); letter-spacing:-0.4px; }
+    .logo span { color:var(--accent); }
+    .hero { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+    .hero-inner { text-align:center; max-width:480px; }
+    .error-code { font-size:80px; font-weight:600; color:var(--accent-light); letter-spacing:-4px; line-height:1; margin-bottom:8px; }
+    .error-title { font-size:24px; font-weight:600; color:var(--t1); margin-bottom:10px; letter-spacing:-0.4px; }
+    .error-desc { font-size:15px; color:var(--t2); margin-bottom:32px; line-height:1.6; }
+    .search-wrap { position:relative; margin-bottom:28px; }
+    .search-wrap input {
+      width:100%; height:48px; border:1.5px solid var(--border-s); border-radius:24px;
+      background:var(--bg); padding:0 16px 0 44px;
+      font-family:var(--font); font-size:15px; color:var(--t1); outline:none;
+      transition:border-color 0.15s; box-shadow:var(--sh);
+    }
+    .search-wrap input:focus { border-color:var(--accent); }
+    .search-wrap input::placeholder { color:var(--t3); }
+    .search-wrap svg { position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--t3); }
+    .home-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:10px 22px; background:var(--accent); color:#fff;
+      border-radius:var(--r2); font-size:14px; font-weight:600;
+      transition:background 0.15s; text-decoration:none;
+    }
+    .home-btn:hover { background:var(--accent-dark); text-decoration:none; }
+    .popular { margin-top:36px; }
+    .popular-label { font-size:11px; font-weight:700; color:var(--t3); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:12px; }
+    .popular-links { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+    .popular-link {
+      padding:6px 12px; border:1px solid var(--border-s); border-radius:var(--r2);
+      font-size:13px; color:var(--t2); background:var(--bg); transition:all 0.15s;
+      box-shadow:var(--sh);
+    }
+    .popular-link:hover { border-color:var(--accent); color:var(--accent); text-decoration:none; }
+    footer { border-top:1px solid var(--border); background:var(--bg); padding:24px; }
+    .footer-inner { max-width:480px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-logo { font-size:14px; font-weight:600; color:var(--t1); }
+    .footer-logo span { color:var(--accent); }
+    .footer-copy { font-size:11px; color:var(--t3); }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFLK3PVX9B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-JFLK3PVX9B");
+  </script>
+</head>
+<body>
+<header class="nav">
+  <a href="/" class="logo">Changing<span>Units</span></a>
+</header>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-desc">The converter or page you are looking for does not exist. Try searching for what you need below.</p>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search404" placeholder="Search any conversion…" autocomplete="off" aria-label="Search conversions">
+    </div>
+    <a href="/" class="home-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Back to home
+    </a>
+    <div class="popular">
+      <p class="popular-label">Popular converters</p>
+      <div class="popular-links">
+        <a href="/length/cm-to-inches/" class="popular-link">cm → inches</a>
+        <a href="/weight/kg-to-lbs/" class="popular-link">kg → lbs</a>
+        <a href="/temperature/celsius-to-fahrenheit/" class="popular-link">°C → °F</a>
+        <a href="/length/km-to-miles/" class="popular-link">km → miles</a>
+        <a href="/area/sqft-to-sqm/" class="popular-link">sq ft → sq m</a>
+        <a href="/currency/usd-to-aed/" class="popular-link">USD → AED</a>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Changing<span>Units</span></div>
+    <div class="footer-copy">© 2026 ChangingUnits. All rights reserved.</div>
+  </div>
+</footer>
+<script>
+  document.getElementById('search404').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      window.location.href = '/?q=' + encodeURIComponent(this.value.trim());
+    }
+  });
+</script>
+</body>
+</html>

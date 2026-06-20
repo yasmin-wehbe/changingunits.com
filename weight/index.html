@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight & Mass Converters — Convert weight units instantly | ChangingUnits</title>
+  <meta name="description" content="Free online weight converters covering kg, grams, pounds, ounces, stones, tonnes and more.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.changingunits.com/weight/">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"Weight & Mass Converters","url":"https://www.changingunits.com/weight/","description":"Free online weight converters covering kg, grams, pounds, ounces, stones, tonnes and more.","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.changingunits.com/"},{"@type":"ListItem","position":2,"name":"Weight","item":"https://www.changingunits.com/weight/"}]}}
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFLK3PVX9B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JFLK3PVX9B');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
+      --bg:#FFFFFF; --bg-2:#F8F8F7;
+      --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+      --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
+      --r1:4px; --r2:8px; --r3:12px;
+      --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --font:'Plus Jakarta Sans',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;}
+    body{font-family:var(--font);background:var(--bg-2);color:var(--t1);min-height:100vh;line-height:1.6;}
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    button{font-family:var(--font);cursor:pointer;border:none;background:none;}
+    .nav{position:sticky;top:0;z-index:100;height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;}
+    .logo{font-size:17px;font-weight:600;color:var(--t1);letter-spacing:-0.4px;white-space:nowrap;}
+    .logo span{color:var(--accent);}
+    .nav-search-wrap{flex:1;max-width:400px;position:relative;}
+    .nav-search-wrap input{width:100%;height:36px;border:1px solid var(--border-s);border-radius:20px;background:var(--bg-2);padding:0 14px 0 38px;font-family:var(--font);font-size:14px;color:var(--t1);outline:none;transition:border-color 0.15s;}
+    .nav-search-wrap input:focus{border-color:var(--accent);background:var(--bg);}
+    .nav-search-wrap input::placeholder{color:var(--t3);}
+    .nav-search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;}
+    .nav-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--bg);border:1px solid var(--border-s);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden;display:none;z-index:200;}
+    .nav-drop.open{display:block;}
+    .nav-drop-item{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;font-size:13px;transition:background 0.1s;}
+    .nav-drop-item:hover{background:var(--bg-2);}
+    .nav-drop-icon{width:28px;height:28px;border-radius:var(--r1);background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:var(--accent);}
+    .nav-drop-name{font-weight:500;color:var(--t1);}
+    .nav-drop-cat{font-size:11px;color:var(--t3);}
+    .nav-links{display:flex;align-items:center;gap:2px;margin-left:auto;}
+    .nav-link{padding:5px 10px;border-radius:var(--r1);font-size:13px;font-weight:500;color:var(--t2);transition:background 0.15s,color 0.15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--bg-2);color:var(--t1);text-decoration:none;}
+    .nav-link.active{color:var(--accent);background:var(--accent-light);}
+    .nav-more{padding:5px 10px;border-radius:var(--r1);font-size:13px;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:3px;transition:background 0.15s,color 0.15s;}
+    .nav-more:hover{background:var(--bg-2);color:var(--t1);}
+    .breadcrumb{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t3);padding:18px 0 0;}
+    .breadcrumb a{color:var(--t3);}
+    .breadcrumb a:hover{color:var(--accent);text-decoration:none;}
+    .breadcrumb .current{color:var(--t2);font-weight:500;}
+    .page-wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px;}
+    .page-header{margin-top:24px;margin-bottom:28px;}
+    .page-title{font-size:28px;font-weight:600;color:var(--t1);letter-spacing:-0.5px;line-height:1.2;}
+    .page-subtitle{font-size:15px;color:var(--t2);margin-top:6px;}
+    .section{margin-bottom:36px;}
+    .section-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;display:block;}
+    .picker-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:24px;box-shadow:var(--sh);}
+    .picker-cols{display:grid;grid-template-columns:1fr 44px 1fr;gap:0;align-items:start;}
+    .picker-col{display:flex;flex-direction:column;gap:8px;}
+    .picker-label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;transition:color 0.15s;}
+    .picker-search{position:relative;}
+    .picker-search input{width:100%;height:42px;border:1.5px solid var(--border-s);border-radius:var(--r2);background:var(--bg-2);padding:0 12px 0 36px;font-family:var(--font);font-size:14px;color:var(--t1);outline:none;transition:border-color 0.15s;display:block;}
+    .picker-search input:focus{border-color:var(--accent);background:var(--bg);}
+    .picker-search input::placeholder{color:var(--t3);}
+    .picker-search .psi{position:absolute;left:11px;top:13px;color:var(--t3);pointer-events:none;z-index:2;}
+    .selected-pill{display:none;position:absolute;top:1px;left:1px;right:1px;bottom:1px;border-radius:calc(var(--r2) - 1px);background:var(--accent-light);align-items:center;padding:0 10px 0 34px;gap:8px;z-index:3;overflow:hidden;}
+    .pill-text{flex:1;min-width:0;font-size:13px;font-weight:600;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .pill-clear{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(79,70,229,0.15);border:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent);cursor:pointer;transition:background 0.15s,color 0.15s;font-family:var(--font);line-height:1;}
+    .pill-clear:hover{background:var(--accent);color:#fff;}
+    .picker-search.has-selection input{color:transparent;background:var(--accent-light);border-color:var(--accent);}
+    .picker-search.has-selection .psi{color:var(--accent);}
+    .unit-list{border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;max-height:0;overflow-y:auto;transition:max-height 0.2s ease,border-color 0.15s;border-color:transparent;}
+    .unit-list.open{max-height:260px;border-color:var(--border);}
+    .unit-list::-webkit-scrollbar{width:4px;}
+    .unit-list::-webkit-scrollbar-track{background:transparent;}
+    .unit-list::-webkit-scrollbar-thumb{background:var(--border-s);border-radius:2px;}
+    .unit-group-header{padding:7px 12px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;background:var(--bg-2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1;}
+    .unit-option{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.1s,color 0.1s;gap:6px;}
+    .unit-option:last-child{border-bottom:none;}
+    .unit-option:hover{background:var(--accent-light);color:var(--accent);}
+    .unit-option.selected{background:var(--accent);color:#fff;}
+    .unit-option.selected .unit-abbr{color:rgba(255,255,255,0.7);}
+    .unit-option.hidden{display:none;}
+    .unit-name-text{flex:1;min-width:0;}
+    .unit-abbr{font-size:11px;color:var(--t3);flex-shrink:0;}
+    .picker-arrow{display:flex;align-items:center;justify-content:center;padding-top:46px;color:var(--t3);}
+    .picker-action{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .go-btn{height:42px;padding:0 28px;background:var(--accent);color:#fff;border-radius:var(--r2);font-size:14px;font-weight:600;transition:background 0.15s;border:none;cursor:pointer;font-family:var(--font);}
+    .go-btn:hover{background:var(--accent-dark);}
+    .go-btn:disabled{background:var(--t3);cursor:default;}
+    .picker-hint{font-size:13px;color:var(--t3);}
+    .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+    .group-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:16px;box-shadow:var(--sh);}
+    .group-card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+    .group-emoji{font-size:18px;flex-shrink:0;}
+    .group-title{font-size:13px;font-weight:600;color:var(--t1);}
+    .unit-chips{display:flex;flex-wrap:wrap;gap:6px;}
+    .unit-chip{padding:5px 10px;border-radius:var(--r2);border:1px solid var(--border-s);background:var(--bg-2);font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:all 0.15s;}
+    .unit-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+    .seo-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:24px;box-shadow:var(--sh);}
+    .seo-card h2{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:10px;}
+    .seo-card p{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px;}
+    .seo-card p:last-child{margin-bottom:0;}
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
+    .cat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r2);padding:12px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--t2);box-shadow:var(--sh);transition:all 0.15s;text-decoration:none;}
+    .cat-card:hover{border-color:var(--accent);color:var(--accent);text-decoration:none;}
+    footer{border-top:1px solid var(--border);background:var(--bg);padding:28px 24px;margin-top:60px;}
+    .footer-inner{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+    .footer-logo{font-size:15px;font-weight:600;color:var(--t1);}
+    .footer-logo span{color:var(--accent);}
+    .footer-links{display:flex;gap:20px;flex-wrap:wrap;}
+    .footer-links a{font-size:12px;color:var(--t2);}
+    .footer-links a:hover{color:var(--accent);}
+    .footer-copy{font-size:11px;color:var(--t3);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    .section{animation:fadeUp 0.25s ease both;}
+    .section:nth-child(2){animation-delay:.05s;}
+    .section:nth-child(3){animation-delay:.10s;}
+    .section:nth-child(4){animation-delay:.15s;}
+    .section:nth-child(5){animation-delay:.20s;}
+    @media(max-width:680px){
+      .nav-links{display:none;}
+      .nav{padding:0 16px;gap:12px;}
+      .page-wrap{padding:0 16px 60px;}
+      .page-title{font-size:22px;}
+      .picker-cols{grid-template-columns:1fr;gap:12px;}
+      .picker-arrow{padding-top:0;transform:rotate(90deg);}
+      .groups-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:400px){.groups-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">Changing<span>Units</span></a>
+  <div class="nav-search-wrap">
+    <svg class="si" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="navSearch" placeholder="Search any conversion…" autocomplete="off" aria-label="Search">
+    <div class="nav-drop" id="navDrop" role="listbox"></div>
+  </div>
+  <nav class="nav-links" aria-label="Main categories">
+    <a href="/length/" class="nav-link">Length</a>
+    <a href="/weight/" class="nav-link active">Weight</a>
+    <a href="/temperature/" class="nav-link">Temperature</a>
+    <a href="/area/" class="nav-link">Area</a>
+    <a href="/volume/" class="nav-link">Volume</a>
+    <button class="nav-more">More ▾</button>
+  </nav>
+</header>
+
+<main>
+<div class="page-wrap">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span>›</span>
+    <span class="current">Weight</span>
+  </nav>
+
+  <div class="page-header">
+    <h1 class="page-title">Weight & Mass Converters</h1>
+    <p class="page-subtitle">Pick two units and convert instantly — or browse by unit system below.</p>
+  </div>
+
+  <!-- FROM / TO PICKER -->
+  <div class="section">
+    <div class="picker-card">
+      <div class="picker-cols">
+
+        <!-- FROM -->
+        <div class="picker-col">
+          <span class="picker-label" id="fromLabel">Convert from</span>
+          <div class="picker-search" id="fromSearchWrap">
+            <svg class="psi" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="fromSearch" placeholder="Search unit…" autocomplete="off" aria-label="Search from unit">
+            <div class="selected-pill" id="fromPill" style="display:none">
+              <span class="pill-text" id="fromPillText"></span>
+              <button class="pill-clear" id="fromClear" aria-label="Clear from unit" tabindex="0">✕</button>
+            </div>
+          </div>
+          <div class="unit-list" id="fromList" role="listbox" aria-label="From unit"></div>
+        </div>
+
+        <!-- ARROW -->
+        <div class="picker-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- TO -->
+        <div class="picker-col">
+          <span class="picker-label" id="toLabel">Convert to</span>
+          <div class="picker-search" id="toSearchWrap">
+            <svg class="psi" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="toSearch" placeholder="Search unit…" autocomplete="off" aria-label="Search to unit">
+            <div class="selected-pill" id="toPill" style="display:none">
+              <span class="pill-text" id="toPillText"></span>
+              <button class="pill-clear" id="toClear" aria-label="Clear to unit" tabindex="0">✕</button>
+            </div>
+          </div>
+          <div class="unit-list" id="toList" role="listbox" aria-label="To unit"></div>
+        </div>
+
+      </div>
+
+      <div class="picker-action">
+        <button class="go-btn" id="goBtn" disabled>Convert ›</button>
+        <span class="picker-hint" id="pickerHint">Select a unit in each column</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROWSE BY UNIT SYSTEM -->
+  <div class="section">
+    <span class="section-label">Browse by unit system</span>
+    <div class="groups-grid">
+
+      <div class="group-card">
+        <div class="group-card-header">
+          <span class="group-emoji">🔵</span>
+          <span class="group-title">Metric</span>
+        </div>
+        <div class="unit-chips">
+          <span class="unit-chip" data-unit="mg">milligrams</span>
+          <span class="unit-chip" data-unit="g">grams</span>
+          <span class="unit-chip" data-unit="kg">kilograms</span>
+          <span class="unit-chip" data-unit="mt">metric tonnes</span>
+        </div>
+      </div>
+
+      <div class="group-card">
+        <div class="group-card-header">
+          <span class="group-emoji">🔴</span>
+          <span class="group-title">Imperial / US</span>
+        </div>
+        <div class="unit-chips">
+          <span class="unit-chip" data-unit="oz">ounces</span>
+          <span class="unit-chip" data-unit="lb">pounds</span>
+          <span class="unit-chip" data-unit="st">stones</span>
+          <span class="unit-chip" data-unit="ton">short tons</span>
+        </div>
+      </div>
+
+      <div class="group-card">
+        <div class="group-card-header">
+          <span class="group-emoji">💎</span>
+          <span class="group-title">Scientific & Precious Metals</span>
+        </div>
+        <div class="unit-chips">
+          <span class="unit-chip" data-unit="toz">troy ounces</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO TEXT -->
+  <div class="section">
+    <div class="seo-card"><h2>About weight conversions</h2>
+      <p>Weight and mass conversions are among the most frequently needed, especially between the metric system (grams, kilograms, metric tonnes) and the imperial system (ounces, pounds, stones). While mass and weight are technically different concepts in physics, for everyday purposes the terms are used interchangeably.</p>
+      <p>One kilogram equals exactly 2.20462 pounds. One pound equals 16 ounces. The stone, used primarily in the UK and Ireland for body weight, equals 14 pounds. Troy ounces are used for precious metals and differ from standard avoirdupois ounces.</p>
+      <p>For the international definition of mass units, see the <a href="https://www.nist.gov/pml/owm/si-units-mass" target="_blank" rel="noopener noreferrer">NIST reference on SI units of mass</a>.</p></div>
+  </div>
+
+  <!-- OTHER CATEGORIES -->
+  <div class="section">
+    <span class="section-label">Other categories</span>
+    <div class="cat-grid">
+      <a href="/length/" class="cat-card">📏 Length</a>
+      <a href="/temperature/" class="cat-card">🌡️ Temperature</a>
+      <a href="/area/" class="cat-card">📐 Area</a>
+      <a href="/volume/" class="cat-card">🧪 Volume</a>
+      <a href="/speed/" class="cat-card">🚀 Speed</a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Changing<span>Units</span></div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/glossary/">Glossary</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/disclaimer/">Disclaimer</a>
+    </div>
+    <div class="footer-copy">© 2026 ChangingUnits. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+var UNITS = [
+  {
+    "id": "mg",
+    "name": "milligrams",
+    "abbr": "mg",
+    "group": "Metric"
+  },
+  {
+    "id": "g",
+    "name": "grams",
+    "abbr": "g",
+    "group": "Metric"
+  },
+  {
+    "id": "kg",
+    "name": "kilograms",
+    "abbr": "kg",
+    "group": "Metric"
+  },
+  {
+    "id": "mt",
+    "name": "metric tonnes",
+    "abbr": "t",
+    "group": "Metric"
+  },
+  {
+    "id": "oz",
+    "name": "ounces",
+    "abbr": "oz",
+    "group": "Imperial / US"
+  },
+  {
+    "id": "lb",
+    "name": "pounds",
+    "abbr": "lb",
+    "group": "Imperial / US"
+  },
+  {
+    "id": "st",
+    "name": "stones",
+    "abbr": "st",
+    "group": "Imperial / US"
+  },
+  {
+    "id": "ton",
+    "name": "short tons",
+    "abbr": "ton",
+    "group": "Imperial / US"
+  },
+  {
+    "id": "toz",
+    "name": "troy ounces",
+    "abbr": "toz",
+    "group": "Scientific & Precious Metals"
+  }
+];
+
+var URL_MAP = {
+  'kg_lb': '/weight/kg-to-lbs/',
+  'lb_kg': '/weight/lbs-to-kg/',
+  'g_oz': '/weight/grams-to-ounces/',
+  'oz_g': '/weight/ounces-to-grams/',
+  'st_kg': '/weight/stones-to-kg/',
+  'kg_st': '/weight/kg-to-stones/',
+  'lb_oz': '/weight/lbs-to-oz/',
+  'oz_lb': '/weight/oz-to-lbs/',
+  'g_kg': '/weight/grams-to-kg/',
+  'kg_g': '/weight/kg-to-grams/',
+  'kg_mt': '/weight/kg-to-metric-tonnes/',
+  'toz_g': '/weight/troy-ounces-to-grams/',
+  'g_toz': '/weight/grams-to-troy-ounces/',
+  'mg_g': '/weight/milligrams-to-grams/',
+  'mg_kg': '/weight/milligrams-to-kilograms/',
+  'mg_mt': '/weight/milligrams-to-metric-tonnes/',
+  'mg_oz': '/weight/milligrams-to-ounces/',
+  'mg_lb': '/weight/milligrams-to-lbs/',
+  'mg_st': '/weight/milligrams-to-stones/',
+  'mg_ton': '/weight/milligrams-to-short-tons/',
+  'mg_toz': '/weight/milligrams-to-troy-ounces/',
+  'g_mg': '/weight/grams-to-milligrams/',
+  'g_mt': '/weight/grams-to-metric-tonnes/',
+  'g_lb': '/weight/grams-to-lbs/',
+  'g_st': '/weight/grams-to-stones/',
+  'g_ton': '/weight/grams-to-short-tons/',
+  'kg_mg': '/weight/kilograms-to-milligrams/',
+  'kg_oz': '/weight/kilograms-to-ounces/',
+  'kg_ton': '/weight/kilograms-to-short-tons/',
+  'kg_toz': '/weight/kilograms-to-troy-ounces/',
+  'mt_mg': '/weight/metric-tonnes-to-milligrams/',
+  'mt_g': '/weight/metric-tonnes-to-grams/',
+  'mt_kg': '/weight/metric-tonnes-to-kilograms/',
+  'mt_oz': '/weight/metric-tonnes-to-ounces/',
+  'mt_lb': '/weight/metric-tonnes-to-lbs/',
+  'mt_st': '/weight/metric-tonnes-to-stones/',
+  'mt_ton': '/weight/metric-tonnes-to-short-tons/',
+  'mt_toz': '/weight/metric-tonnes-to-troy-ounces/',
+  'oz_mg': '/weight/ounces-to-milligrams/',
+  'oz_kg': '/weight/ounces-to-kilograms/',
+  'oz_mt': '/weight/ounces-to-metric-tonnes/',
+  'oz_st': '/weight/ounces-to-stones/',
+  'oz_ton': '/weight/ounces-to-short-tons/',
+  'oz_toz': '/weight/ounces-to-troy-ounces/',
+  'lb_mg': '/weight/lbs-to-milligrams/',
+  'lb_g': '/weight/lbs-to-grams/',
+  'lb_mt': '/weight/lbs-to-metric-tonnes/',
+  'lb_st': '/weight/lbs-to-stones/',
+  'lb_ton': '/weight/lbs-to-short-tons/',
+  'lb_toz': '/weight/lbs-to-troy-ounces/',
+  'st_mg': '/weight/stones-to-milligrams/',
+  'st_g': '/weight/stones-to-grams/',
+  'st_mt': '/weight/stones-to-metric-tonnes/',
+  'st_oz': '/weight/stones-to-ounces/',
+  'st_lb': '/weight/stones-to-lbs/',
+  'st_ton': '/weight/stones-to-short-tons/',
+  'st_toz': '/weight/stones-to-troy-ounces/',
+  'ton_mg': '/weight/short-tons-to-milligrams/',
+  'ton_g': '/weight/short-tons-to-grams/',
+  'ton_kg': '/weight/short-tons-to-kilograms/',
+  'ton_mt': '/weight/short-tons-to-metric-tonnes/',
+  'ton_oz': '/weight/short-tons-to-ounces/',
+  'ton_lb': '/weight/short-tons-to-lbs/',
+  'ton_st': '/weight/short-tons-to-stones/',
+  'ton_toz': '/weight/short-tons-to-troy-ounces/',
+  'toz_mg': '/weight/troy-ounces-to-milligrams/',
+  'toz_kg': '/weight/troy-ounces-to-kilograms/',
+  'toz_mt': '/weight/troy-ounces-to-metric-tonnes/',
+  'toz_oz': '/weight/troy-ounces-to-ounces/',
+  'toz_lb': '/weight/troy-ounces-to-lbs/',
+  'toz_st': '/weight/troy-ounces-to-stones/',
+  'toz_ton': '/weight/troy-ounces-to-short-tons/'
+};
+
+var selectedFrom = null;
+var selectedTo   = null;
+
+function renderList(listEl, filterText, selectedId, excludeId) {
+  var filter = (filterText || '').toLowerCase();
+  var groups = {};
+  var order  = [];
+  UNITS.forEach(function(u) {
+    if (u.id === excludeId) return;
+    var match = u.name.toLowerCase().indexOf(filter) !== -1
+             || u.abbr.toLowerCase().indexOf(filter) !== -1
+             || u.group.toLowerCase().indexOf(filter) !== -1;
+    if (!match) return;
+    if (!groups[u.group]) { groups[u.group] = []; order.push(u.group); }
+    groups[u.group].push(u);
+  });
+  var html = '';
+  order.forEach(function(g) {
+    html += '<div class="unit-group-header">' + g + '</div>';
+    groups[g].forEach(function(u) {
+      var sel = u.id === selectedId ? ' selected' : '';
+      html += '<div class="unit-option' + sel + '" data-id="' + u.id + '" data-name="' + u.name + '" role="option" aria-selected="' + (u.id === selectedId) + '">'
+            + '<span class="unit-name-text">' + u.name + '</span>'
+            + '<span class="unit-abbr">' + u.abbr + '</span>'
+            + '</div>';
+    });
+  });
+  if (!html) html = '<div style="padding:14px 12px;font-size:13px;color:var(--t3);">No units found</div>';
+  listEl.innerHTML = html;
+}
+
+function updateButton() {
+  var btn  = document.getElementById('goBtn');
+  var hint = document.getElementById('pickerHint');
+  if (!selectedFrom && !selectedTo) { btn.disabled = true; hint.textContent = 'Select a unit in each column'; return; }
+  if (!selectedFrom) { btn.disabled = true; hint.textContent = 'Now select a "convert from" unit'; return; }
+  if (!selectedTo)   { btn.disabled = true; hint.textContent = 'Now select a "convert to" unit'; return; }
+  if (selectedFrom === selectedTo) { btn.disabled = true; hint.textContent = 'Please select two different units'; return; }
+  var key = selectedFrom + '_' + selectedTo;
+  var url = URL_MAP[key];
+  if (url) { btn.disabled = false; hint.textContent = ''; btn.onclick = function() { window.location.href = url; }; }
+  else { btn.disabled = true; hint.textContent = 'This converter is not yet available — check back soon'; }
+}
+
+function openList(side)  { document.getElementById(side + 'List').classList.add('open'); }
+function closeList(side) { document.getElementById(side + 'List').classList.remove('open'); }
+
+function showPill(side, unitId) {
+  var unit = UNITS.filter(function(u) { return u.id === unitId; })[0];
+  if (!unit) return;
+  var pill  = document.getElementById(side + 'Pill');
+  var ptext = document.getElementById(side + 'PillText');
+  var wrap  = document.getElementById(side + 'SearchWrap');
+  var input = document.getElementById(side + 'Search');
+  ptext.textContent = unit.name + ' (' + unit.abbr + ')';
+  pill.style.display = 'flex';
+  wrap.classList.add('has-selection');
+  input.value = '';
+  closeList(side);
+}
+
+function clearPill(side) {
+  var pill  = document.getElementById(side + 'Pill');
+  var wrap  = document.getElementById(side + 'SearchWrap');
+  var input = document.getElementById(side + 'Search');
+  pill.style.display = 'none';
+  wrap.classList.remove('has-selection');
+  input.value = '';
+  if (side === 'from') {
+    selectedFrom = null;
+    renderList(document.getElementById('fromList'), '', null, selectedTo);
+    renderList(document.getElementById('toList'),   '', selectedTo, null);
+  } else {
+    selectedTo = null;
+    renderList(document.getElementById('toList'), '', null, selectedFrom);
+  }
+  updateButton();
+  input.focus();
+  openList(side);
+  setActiveSide(side);
+}
+
+function bindList(listEl, side) {
+  listEl.addEventListener('mousedown', function(e) { e.preventDefault(); });
+  listEl.addEventListener('click', function(e) {
+    var opt = e.target.closest('.unit-option');
+    if (!opt) return;
+    var id = opt.getAttribute('data-id');
+    if (side === 'from') {
+      selectedFrom = id;
+      renderList(document.getElementById('toList'), document.getElementById('toSearch').value, selectedTo, selectedFrom);
+    } else {
+      selectedTo = id;
+    }
+    var excl = side === 'from' ? null : selectedFrom;
+    renderList(listEl, document.getElementById(side === 'from' ? 'fromSearch' : 'toSearch').value, id, excl);
+    showPill(side, id);
+    updateButton();
+    if (side === 'from' && !selectedTo) { setActiveSide('to'); document.getElementById('toSearch').focus(); }
+  });
+}
+
+function bindSearch(inputEl, listEl, side) {
+  inputEl.addEventListener('input', function() {
+    var excl = side === 'from' ? null : selectedFrom;
+    renderList(listEl, inputEl.value, side === 'from' ? selectedFrom : selectedTo, excl);
+  });
+}
+
+var activeSide = 'from';
+function setActiveSide(side) {
+  activeSide = side;
+  document.getElementById('fromLabel').style.color = side === 'from' ? 'var(--accent)' : '';
+  document.getElementById('toLabel').style.color   = side === 'to'   ? 'var(--accent)' : '';
+}
+
+document.addEventListener('click', function(e) {
+  var chip = e.target.closest('.unit-chip');
+  if (!chip) return;
+  var uid = chip.getAttribute('data-unit');
+  if (activeSide === 'from') {
+    selectedFrom = uid;
+    renderList(document.getElementById('fromList'), '', selectedFrom, selectedTo);
+    renderList(document.getElementById('toList'),   '', selectedTo,   selectedFrom);
+    showPill('from', uid);
+    setActiveSide('to');
+    document.getElementById('toSearch').focus();
+  } else {
+    selectedTo = uid;
+    renderList(document.getElementById('toList'),   '', selectedTo,   selectedFrom);
+    renderList(document.getElementById('fromList'), '', selectedFrom, selectedTo);
+    showPill('to', uid);
+  }
+  updateButton();
+  document.querySelector('.picker-card').scrollIntoView({behavior:'smooth', block:'nearest'});
+});
+
+
+  var SEARCH_DATA = [
+    {name:'cm to inches',cat:'Length',url:'/length/cm-to-inches/'},
+    {name:'inches to cm',cat:'Length',url:'/length/inches-to-cm/'},
+    {name:'km to miles',cat:'Length',url:'/length/km-to-miles/'},
+    {name:'meters to feet',cat:'Length',url:'/length/meters-to-feet/'},
+    {name:'kg to lbs',cat:'Weight',url:'/weight/kg-to-lbs/'},
+    {name:'lbs to kg',cat:'Weight',url:'/weight/lbs-to-kg/'},
+    {name:'celsius to fahrenheit',cat:'Temperature',url:'/temperature/celsius-to-fahrenheit/'},
+    {name:'fahrenheit to celsius',cat:'Temperature',url:'/temperature/fahrenheit-to-celsius/'},
+    {name:'sqft to sqm',cat:'Area',url:'/area/sqft-to-sqm/'},
+    {name:'mpg to l/100km',cat:'Fuel',url:'/fuel/mpg-to-l100km/'},
+    {name:'usd to aed',cat:'Currency',url:'/currency/usd-to-aed/'},
+    {name:'liters to gallons',cat:'Volume',url:'/volume/liters-to-gallons/'},
+  ];
+  var $ns = document.getElementById('navSearch');
+  var $nd = document.getElementById('navDrop');
+  if ($ns) {
+    $ns.addEventListener('input', function() {
+      var q = $ns.value.toLowerCase().trim();
+      if (!q) { $nd.classList.remove('open'); return; }
+      var hits = SEARCH_DATA.filter(function(c) {
+        return c.name.indexOf(q) !== -1 || c.cat.toLowerCase().indexOf(q) !== -1;
+      }).slice(0, 6);
+      if (!hits.length) { $nd.classList.remove('open'); return; }
+      $nd.innerHTML = hits.map(function(r) {
+        return '<div class="nav-drop-item" data-url="' + r.url + '" role="option">'
+          + '<div class="nav-drop-icon">&#x21C4;</div>'
+          + '<div><div class="nav-drop-name">' + r.name + '</div>'
+          + '<div class="nav-drop-cat">' + r.cat + '</div></div></div>';
+      }).join('');
+      $nd.classList.add('open');
+    });
+    $nd.addEventListener('click', function(e) {
+      var item = e.target.closest('.nav-drop-item');
+      if (item && item.dataset.url) window.location.href = item.dataset.url;
+    });
+    $ns.addEventListener('keydown', function(e) { if (e.key === 'Escape') $nd.classList.remove('open'); });
+    document.addEventListener('click', function(e) { if (!$ns.contains(e.target)) $nd.classList.remove('open'); });
+  }
+
+var fromList   = document.getElementById('fromList');
+var toList     = document.getElementById('toList');
+var fromSearch = document.getElementById('fromSearch');
+var toSearch   = document.getElementById('toSearch');
+
+renderList(fromList, '', null, null);
+renderList(toList,   '', null, null);
+bindList(fromList, 'from');
+bindList(toList,   'to');
+bindSearch(fromSearch, fromList, 'from');
+bindSearch(toSearch,   toList,   'to');
+
+fromSearch.addEventListener('focus', function() { setActiveSide('from'); if (!selectedFrom) openList('from'); closeList('to'); });
+fromSearch.addEventListener('blur',  function() { setTimeout(function() { closeList('from'); }, 150); });
+toSearch.addEventListener('focus',   function() { setActiveSide('to');   if (!selectedTo)   openList('to');   closeList('from'); });
+toSearch.addEventListener('blur',    function() { setTimeout(function() { closeList('to');   }, 150); });
+
+document.getElementById('fromClear').addEventListener('click', function(e) { e.stopPropagation(); clearPill('from'); });
+document.getElementById('toClear').addEventListener('click',   function(e) { e.stopPropagation(); clearPill('to'); });
+document.getElementById('fromPill').addEventListener('click',  function(e) { if (!e.target.closest('.pill-clear')) clearPill('from'); });
+document.getElementById('toPill').addEventListener('click',    function(e) { if (!e.target.closest('.pill-clear')) clearPill('to'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | ChangingUnits</title>
+  <meta name="description" content="Get in touch with the ChangingUnits team — report an error, suggest a unit, or just say hello.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.changingunits.com/contact/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
+      --bg:#FFFFFF; --bg-2:#F8F8F7;
+      --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+      --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
+      --r1:4px; --r2:8px; --r3:12px;
+      --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --font:'Plus Jakarta Sans',sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { font-size:16px; -webkit-font-smoothing:antialiased; }
+    body { font-family:var(--font); background:var(--bg-2); color:var(--t1); min-height:100vh; line-height:1.6; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .nav { position:sticky; top:0; z-index:100; height:60px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 24px; gap:24px; }
+    .logo { font-size:17px; font-weight:600; color:var(--t1); letter-spacing:-0.4px; }
+    .logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:2px; margin-left:auto; }
+    .nav-link { padding:5px 10px; border-radius:4px; font-size:13px; font-weight:500; color:var(--t2); transition:background 0.15s,color 0.15s; }
+    .nav-link:hover { background:var(--bg-2); color:var(--t1); text-decoration:none; }
+    .page-wrap { max-width:600px; margin:0 auto; padding:48px 24px 80px; }
+    .page-title { font-size:32px; font-weight:600; color:var(--t1); letter-spacing:-0.6px; margin-bottom:8px; }
+    .page-lead { font-size:15px; color:var(--t2); margin-bottom:36px; line-height:1.7; }
+    .card { background:var(--bg); border:1px solid var(--border); border-radius:var(--r3); padding:28px; box-shadow:var(--sh); }
+    label { display:block; font-size:12px; font-weight:600; color:var(--t3); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; margin-top:18px; }
+    label:first-of-type { margin-top:0; }
+    input[type="text"], input[type="email"], select, textarea {
+      width:100%; border:1.5px solid var(--border-s); border-radius:var(--r2);
+      padding:10px 12px; font-family:var(--font); font-size:14px; color:var(--t1);
+      background:var(--bg-2); outline:none; transition:border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color:var(--accent); background:var(--bg); }
+    textarea { resize:vertical; min-height:120px; line-height:1.6; }
+    .submit-btn {
+      margin-top:22px; width:100%; height:44px;
+      background:var(--accent); color:#fff; border:none; border-radius:var(--r2);
+      font-family:var(--font); font-size:14px; font-weight:600;
+      cursor:pointer; transition:background 0.15s;
+    }
+    .submit-btn:hover { background:var(--accent-dark); }
+    .success-msg { display:none; margin-top:16px; padding:12px 14px; background:#ECFDF5; border-radius:var(--r2); font-size:13px; color:#065F46; font-weight:500; }
+    .note { font-size:12px; color:var(--t3); margin-top:16px; line-height:1.5; }
+    footer { border-top:1px solid var(--border); background:var(--bg); padding:28px 24px; margin-top:60px; }
+    .footer-inner { max-width:600px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    .footer-logo { font-size:15px; font-weight:600; color:var(--t1); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
+    .footer-links a { font-size:12px; color:var(--t2); }
+    .footer-copy { font-size:11px; color:var(--t3); }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFLK3PVX9B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-JFLK3PVX9B");
+  </script>
+</head>
+<body>
+<header class="nav">
+  <a href="/" class="logo">Changing<span>Units</span></a>
+  <nav class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/about/" class="nav-link">About</a>
+  </nav>
+</header>
+<main>
+<div class="page-wrap">
+  <h1 class="page-title">Contact us</h1>
+  <!-- EDIT: Update the lead text and email address below -->
+  <p class="page-lead">Found an error, want to suggest a unit, or have a question? We read every message.</p>
+
+  <div class="card">
+    <form id="contactForm" novalidate>
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Smith" autocomplete="name">
+
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email">
+
+      <label for="subject">Subject</label>
+      <select id="subject" name="subject">
+        <option value="">Select a topic…</option>
+        <option value="error">Report an error</option>
+        <option value="suggestion">Suggest a unit or converter</option>
+        <option value="feedback">General feedback</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Tell us more…"></textarea>
+
+      <button type="submit" class="submit-btn">Send message</button>
+      <div class="success-msg" id="successMsg">Thank you — your message has been sent. We will get back to you shortly.</div>
+    </form>
+
+    <!-- EDIT: Replace with your actual email address -->
+    <p class="note">Alternatively, email us directly at <a href="mailto:hello@changingunits.com">hello@changingunits.com</a>. We typically respond within 2 business days.</p>
+  </div>
+</div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Changing<span>Units</span></div>
+    <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/disclaimer/">Disclaimer</a>
+    </div>
+    <div class="footer-copy">© 2026 ChangingUnits. All rights reserved.</div>
+  </div>
+</footer>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    /* EDIT: Replace this with your actual form submission logic.
+       Options: Formspree (formspree.io), Netlify Forms, or your own backend.
+       Example Formspree: change the action attribute on the form to your Formspree endpoint. */
+    document.getElementById('successMsg').style.display = 'block';
+    this.reset();
+  });
+</script>
+</body>
+</html>

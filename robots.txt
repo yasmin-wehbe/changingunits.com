@@ -1,0 +1,11 @@
+# robots.txt for changingunits.com
+# Controls which pages search engine crawlers can index
+
+User-agent: *
+Allow: /
+
+# Block admin or utility paths if you add them later
+# Disallow: /admin/
+
+# Sitemap location — update this once deployed
+Sitemap: https://www.changingunits.com/sitemap.xml
