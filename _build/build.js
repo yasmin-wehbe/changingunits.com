@@ -41,14 +41,15 @@ function buildConverter(cat, conv) {
 }
 
 function buildSitemap() {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   const urls = [
-    `  <url><loc>${SITE.domain}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>`
+    `  <url><loc>${SITE.domain}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`
   ];
   CATEGORIES.forEach(cat => {
-    urls.push(`  <url><loc>${SITE.domain}/${cat.id}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>`);
+    urls.push(`  <url><loc>${SITE.domain}/${cat.id}/</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`);
     cat.converters.forEach(conv => {
       const p = conv.popular ? '0.9' : '0.7';
-      urls.push(`  <url><loc>${SITE.domain}/${cat.id}/${conv.slug}/</loc><changefreq>monthly</changefreq><priority>${p}</priority></url>`);
+      urls.push(`  <url><loc>${SITE.domain}/${cat.id}/${conv.slug}/</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>${p}</priority></url>`);
     });
   });
   write(
