@@ -1044,3 +1044,390 @@ document.getElementById('toPill').addEventListener('click',    function(e) { if 
 </body>
 </html>`;
 }
+
+// ── CURRENCY CONVERTER TEMPLATE ──────────────────────────────
+// Live rates fetched from Frankfurter API on page load
+// No static factor — rate is always current
+
+function currencyConverterTemplate(fromCode, toCode, fromName, toName, allCurrencies) {
+  const slug = fromCode.toLowerCase() + '-to-' + toCode.toLowerCase();
+  const url  = `${SITE.domain}/currency/${slug}/`;
+  const titleTag = `${fromName} to ${toName} Converter`;
+  const metaDesc = `Convert ${fromName} to ${toName} with live exchange rates. Free, accurate, updated daily from the European Central Bank.`;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": titleTag,
+    "url": url,
+    "description": metaDesc,
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",     "item": SITE.domain + "/" },
+        { "@type": "ListItem", "position": 2, "name": "Currency", "item": SITE.domain + "/currency/" },
+        { "@type": "ListItem", "position": 3, "name": titleTag,   "item": url }
+      ]
+    }
+  };
+
+  // Related currency pairs for sidebar
+  const related = allCurrencies
+    .filter(c => c.code !== fromCode && c.code !== toCode)
+    .slice(0, 8)
+    .map(c => `<a href="/currency/${fromCode.toLowerCase()}-to-${c.code.toLowerCase()}/" class="rel-link">${fromCode} → ${c.code}</a>`)
+    .join('\n          ');
+
+  return `${headPartial({ title: titleTag, description: metaDesc, canonical: url, schema })}
+${SHARED_CSS}
+<style>
+  .rate-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--c-text-2); background:var(--c-bg-2); padding:4px 10px; border-radius:20px; margin-bottom:16px; }
+  .rate-badge .dot { width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
+  .rate-badge .dot.stale { background:#f59e0b; }
+  .rate-source { font-size:11px; color:var(--c-text-3); margin-top:10px; }
+  .rate-source a { color:inherit; text-decoration:underline; }
+  .disclaimer-box { background:var(--c-bg-2); border:0.5px solid var(--c-border); border-radius:var(--r-md); padding:12px 16px; font-size:12px; color:var(--c-text-2); line-height:1.6; margin-top:16px; }
+  .loading-state { text-align:center; padding:24px; color:var(--c-text-2); font-size:14px; }
+  .error-state { text-align:center; padding:24px; color:#ef4444; font-size:13px; }
+</style>
+${navPartial('currency')}
+
+<main class="page-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span aria-hidden="true"> › </span>
+    <a href="/currency/">Currency</a><span aria-hidden="true"> › </span>
+    <span aria-current="page">${fromCode} to ${toCode}</span>
+  </nav>
+
+  <div class="two-col">
+    <div class="main-col">
+      <h1>${fromName} to ${toName}</h1>
+      <p class="page-sub">Convert ${fromCode} to ${toCode} with live mid-market exchange rates.</p>
+
+      <div id="rateBadge" class="rate-badge">
+        <span class="dot" id="rateDot"></span>
+        <span id="rateStatus">Loading rate…</span>
+      </div>
+
+      <div class="conv-card" id="convCard">
+        <div class="loading-state" id="loadingState">Fetching live rate…</div>
+        <div id="converterUI" style="display:none">
+          <div class="conv-inputs">
+            <div class="input-group">
+              <label for="inputFrom" id="labelFrom">${fromName} (${fromCode})</label>
+              <div class="input-wrap">
+                <input type="number" id="inputFrom" value="1" min="0" step="any" autocomplete="off">
+                <span class="unit-badge" id="fromUnit">${fromCode}</span>
+              </div>
+            </div>
+            <button class="swap-btn" id="swapBtn" aria-label="Swap currencies" title="Swap">⇄</button>
+            <div class="input-group">
+              <label for="inputTo" id="labelTo">${toName} (${toCode})</label>
+              <div class="input-wrap">
+                <input type="number" id="inputTo" readonly>
+                <span class="unit-badge" id="toUnit">${toCode}</span>
+              </div>
+            </div>
+          </div>
+          <div class="result-bar">
+            <span id="resultText">—</span>
+            <button class="copy-btn" id="copyBtn" aria-label="Copy result">Copy</button>
+          </div>
+          <div class="rate-source">
+            Rate: <strong id="rateDisplay">—</strong> &nbsp;·&nbsp;
+            Source: <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener noreferrer">European Central Bank</a>
+            &nbsp;·&nbsp; Updated: <span id="rateDate">—</span>
+          </div>
+        </div>
+        <div class="error-state" id="errorState" style="display:none">
+          Unable to load live rate. Please try again later.
+        </div>
+      </div>
+
+      <div class="disclaimer-box">
+        ⚠️ Rates are mid-market reference rates from the European Central Bank, updated daily. They are provided for informational purposes only and may differ from rates offered by banks, brokers, or money transfer services. Not suitable for commercial transactions.
+      </div>
+
+      <div class="about-card" style="margin-top:24px;">
+        <h2>About ${fromCode} and ${toCode}</h2>
+        <p><strong>${fromCode} — ${fromName}:</strong> ${getCurrencyAbout(fromCode)}</p>
+        <p style="margin-top:10px;"><strong>${toCode} — ${toName}:</strong> ${getCurrencyAbout(toCode)}</p>
+      </div>
+    </div>
+
+    <aside class="side-col">
+      <div class="sidebar-card">
+        <div class="sidebar-title">Other ${fromCode} conversions</div>
+        ${related}
+      </div>
+      <div class="sidebar-card" style="margin-top:12px;">
+        <div class="sidebar-title">All categories</div>
+        <a href="/length/" class="rel-link">📏 Length</a>
+        <a href="/weight/" class="rel-link">⚖️ Weight</a>
+        <a href="/temperature/" class="rel-link">🌡️ Temperature</a>
+        <a href="/area/" class="rel-link">📐 Area</a>
+        <a href="/volume/" class="rel-link">🧪 Volume</a>
+        <a href="/speed/" class="rel-link">🚀 Speed</a>
+        <a href="/time/" class="rel-link">⏱️ Time</a>
+        <a href="/data/" class="rel-link">💾 Data</a>
+        <a href="/energy/" class="rel-link">⚡ Energy</a>
+        <a href="/pressure/" class="rel-link">💨 Pressure</a>
+        <a href="/currency/" class="rel-link">💱 Currency</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+${footerPartial()}
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  var FROM = '${fromCode}', TO = '${toCode}';
+  var FROM_NAME = '${fromName}', TO_NAME = '${toName}';
+  var swapped = false;
+  var liveRate = null;
+
+  // ── ELEMENTS ────────────────────────────────────────────────
+  var $from    = document.getElementById('inputFrom');
+  var $to      = document.getElementById('inputTo');
+  var $result  = document.getElementById('resultText');
+  var $swap    = document.getElementById('swapBtn');
+  var $copy    = document.getElementById('copyBtn');
+  var $loading = document.getElementById('loadingState');
+  var $ui      = document.getElementById('converterUI');
+  var $error   = document.getElementById('errorState');
+  var $status  = document.getElementById('rateStatus');
+  var $dot     = document.getElementById('rateDot');
+  var $rateDisp= document.getElementById('rateDisplay');
+  var $rateDate= document.getElementById('rateDate');
+
+  // ── FETCH LIVE RATE ─────────────────────────────────────────
+  function fetchRate() {
+    var base = swapped ? TO : FROM;
+    var quote = swapped ? FROM : TO;
+    var apiURL = 'https://api.frankfurter.dev/v2/latest?base=' + base + '&symbols=' + quote;
+
+    fetch(apiURL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        liveRate = data.rates[quote];
+        var dateStr = data.date || 'today';
+        $loading.style.display = 'none';
+        $ui.style.display = 'block';
+        $dot.className = 'dot';
+        $status.textContent = '1 ' + base + ' = ' + formatNum(liveRate) + ' ' + quote;
+        $rateDisp.textContent = '1 ' + base + ' = ' + formatNum(liveRate) + ' ' + quote;
+        $rateDate.textContent = dateStr;
+        update();
+      })
+      .catch(function() {
+        $loading.style.display = 'none';
+        $error.style.display = 'block';
+        $dot.className = 'dot stale';
+        $status.textContent = 'Rate unavailable';
+      });
+  }
+
+  // ── CONVERSION ──────────────────────────────────────────────
+  function formatNum(n) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    if (Math.abs(n) < 0.0001) return n.toExponential(4);
+    if (Math.abs(n) >= 1000000) return n.toLocaleString('en', {maximumFractionDigits:2});
+    return parseFloat(n.toPrecision(7)).toString();
+  }
+
+  function update() {
+    if (!liveRate) return;
+    var val = parseFloat($from.value);
+    if (isNaN(val) || val === '') { $to.value = ''; $result.textContent = '—'; return; }
+    var result = val * liveRate;
+    $to.value = formatNum(result);
+    $result.textContent = formatNum(val) + ' ' + (swapped ? TO : FROM) + ' = ' + formatNum(result) + ' ' + (swapped ? FROM : TO);
+  }
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = btn.textContent; btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; }, 1500);
+    });
+  }
+
+  // ── EVENTS ──────────────────────────────────────────────────
+  $from.addEventListener('input', update);
+
+  $swap.addEventListener('click', function() {
+    swapped = !swapped;
+    var curRes = parseFloat($to.value);
+    $from.value = isNaN(curRes) ? '' : curRes;
+    document.querySelector('label[for=inputFrom]').textContent = (swapped ? TO_NAME : FROM_NAME) + ' (' + (swapped ? TO : FROM) + ')';
+    document.querySelector('label[for=inputTo]').textContent   = (swapped ? FROM_NAME : TO_NAME) + ' (' + (swapped ? FROM : TO) + ')';
+    document.getElementById('fromUnit').textContent = swapped ? TO : FROM;
+    document.getElementById('toUnit').textContent   = swapped ? FROM : TO;
+    liveRate = null;
+    $loading.style.display = 'block';
+    $ui.style.display = 'none';
+    $error.style.display = 'none';
+    fetchRate();
+  });
+
+  $copy.addEventListener('click', function() { copyText($result.textContent, $copy); });
+
+  // ── VISIT TRACKING ──────────────────────────────────────────
+  (function() {
+    var PAGE = { url: '/currency/${slug}/', name: '${fromCode} to ${toCode}', cat: 'Currency' };
+    var KEY = 'cu_visits';
+    try {
+      var stored = JSON.parse(localStorage.getItem(KEY) || '{}');
+      var entry = stored[PAGE.url] || { name: PAGE.name, cat: PAGE.cat, url: PAGE.url, count: 0 };
+      entry.count += 1; entry.last = Date.now();
+      stored[PAGE.url] = entry;
+      localStorage.setItem(KEY, JSON.stringify(stored));
+    } catch(e) {}
+  })();
+
+  ${NAV_SEARCH_JS}
+
+  // ── INIT ────────────────────────────────────────────────────
+  fetchRate();
+</script>
+</html>`;
+}
+
+// Short about text per currency code
+function getCurrencyAbout(code) {
+  var about = {
+    USD: 'The United States Dollar is the world\'s primary reserve currency, used in the majority of global trade and financial transactions.',
+    EUR: 'The Euro is the official currency of 20 European Union member states, making it the second most traded currency in the world.',
+    GBP: 'The British Pound Sterling is one of the oldest currencies in existence and the fourth most traded currency globally.',
+    JPY: 'The Japanese Yen is the third most traded currency in the world and a common safe-haven asset during times of market uncertainty.',
+    CHF: 'The Swiss Franc is known for its stability and is considered a safe-haven currency, backed by Switzerland\'s strong financial system.',
+    AUD: 'The Australian Dollar is the fifth most traded currency globally, strongly influenced by commodity prices and the Asia-Pacific economy.',
+    CAD: 'The Canadian Dollar is closely tied to commodity prices, particularly oil, given Canada\'s role as a major energy exporter.',
+    CNY: 'The Chinese Yuan (Renminbi) is the official currency of China, the world\'s second largest economy and major global trading partner.',
+    HKD: 'The Hong Kong Dollar is pegged to the US Dollar and serves as an important currency in Asian financial markets.',
+    SGD: 'The Singapore Dollar is one of the strongest and most stable currencies in Asia, reflecting Singapore\'s role as a global financial hub.',
+    SEK: 'The Swedish Krona is the currency of Sweden, a highly developed economy known for its export-oriented industries.',
+    NOK: 'The Norwegian Krone is heavily influenced by oil prices, as Norway is one of the world\'s largest petroleum exporters.',
+    DKK: 'The Danish Krone is pegged to the Euro through the Exchange Rate Mechanism and is one of Europe\'s most stable currencies.',
+    NZD: 'The New Zealand Dollar is influenced by agricultural commodity prices and the country\'s close economic ties with Australia.',
+    MXN: 'The Mexican Peso is the most traded Latin American currency and is closely linked to the US economy due to NAFTA/USMCA trade.',
+    BRL: 'The Brazilian Real is the currency of South America\'s largest economy, influenced by commodity exports and political developments.',
+    INR: 'The Indian Rupee is the currency of the world\'s most populous country and one of the fastest-growing major economies.',
+    KRW: 'The South Korean Won is the currency of Asia\'s fourth largest economy, known for its technology and manufacturing exports.',
+    TRY: 'The Turkish Lira is the currency of Turkey, a major emerging market economy bridging Europe and the Middle East.',
+    ZAR: 'The South African Rand is the most traded African currency and a proxy for emerging market sentiment globally.',
+    AED: 'The UAE Dirham is pegged to the US Dollar and serves as the currency of the United Arab Emirates, a major global financial and trade hub.',
+    SAR: 'The Saudi Riyal is pegged to the US Dollar and is the currency of Saudi Arabia, the world\'s largest oil exporter.',
+    QAR: 'The Qatari Riyal is pegged to the US Dollar and is the currency of Qatar, one of the world\'s wealthiest nations per capita.',
+    KWD: 'The Kuwaiti Dinar is consistently one of the highest-valued currencies in the world, backed by Kuwait\'s vast oil reserves.',
+    BHD: 'The Bahraini Dinar is pegged to the US Dollar and is one of the highest-valued currencies globally.',
+    OMR: 'The Omani Rial is pegged to the US Dollar and is one of the highest-valued currencies in the world.',
+    EGP: 'The Egyptian Pound is the currency of Egypt, the most populous Arab country and a major regional economy.',
+    PLN: 'The Polish Zloty is the currency of Poland, Central Europe\'s largest economy and one of the EU\'s fastest-growing members.',
+    CZK: 'The Czech Koruna is the currency of the Czech Republic, a highly developed Central European economy.',
+    HUF: 'The Hungarian Forint is the currency of Hungary, a key manufacturing hub in Central Europe.',
+    RON: 'The Romanian Leu is the currency of Romania, one of the fastest-growing economies in the European Union.',
+    BGN: 'The Bulgarian Lev is pegged to the Euro and is the currency of Bulgaria, an EU member state in Southeast Europe.',
+    HRK: 'The Croatian Kuna was the currency of Croatia before the country adopted the Euro in 2023.',
+    THB: 'The Thai Baht is one of Southeast Asia\'s most stable currencies and the currency of a major tourist destination.',
+    MYR: 'The Malaysian Ringgit is the currency of Malaysia, a highly open and export-oriented economy in Southeast Asia.',
+    IDR: 'The Indonesian Rupiah is the currency of Southeast Asia\'s largest economy and one of the world\'s most populous nations.',
+    PHP: 'The Philippine Peso is the currency of the Philippines, an archipelago nation with a fast-growing service economy.',
+    VND: 'The Vietnamese Dong is the currency of Vietnam, one of Asia\'s fastest-growing manufacturing economies.',
+    PKR: 'The Pakistani Rupee is the currency of Pakistan, one of the world\'s most populous countries.',
+    BDT: 'The Bangladeshi Taka is the currency of Bangladesh, a major global garment exporter and fast-growing economy.',
+    ILS: 'The Israeli New Shekel is the currency of Israel, a highly developed economy known for its technology sector.',
+    CLP: 'The Chilean Peso is the currency of Chile, the world\'s largest copper producer and one of Latin America\'s most stable economies.',
+    COP: 'The Colombian Peso is the currency of Colombia, South America\'s third largest economy.',
+    ARS: 'The Argentine Peso is the currency of Argentina, one of South America\'s largest economies.',
+    PEN: 'The Peruvian Sol is the currency of Peru, a major South American economy and significant mineral exporter.',
+    DZD: 'The Algerian Dinar is the currency of Algeria, North Africa\'s largest country by area.',
+    MAD: 'The Moroccan Dirham is the currency of Morocco, a North African country with a diversified economy.',
+  };
+  return about[code] || 'A widely traded global currency used in international commerce and finance.';
+}
+
+module.exports.currencyConverterTemplate = currencyConverterTemplate;
+module.exports.currencyHubTemplate = currencyHubTemplate;
+
+// ── CURRENCY HUB TEMPLATE ────────────────────────────────────
+function currencyHubTemplate(currencies, allCategories) {
+  const title = 'Currency Converter — Live Exchange Rates';
+  const desc  = 'Free currency converter with live exchange rates for 40+ currencies. Convert USD, EUR, GBP, AED, SAR, JPY and more.';
+  const url   = SITE.domain + '/currency/';
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "url": url,
+    "description": desc
+  };
+
+  const currencyGrid = currencies.map(c =>
+    `<a href="/currency/usd-to-${c.code.toLowerCase()}/" class="cat-chip">${c.flag || ''} ${c.code} <span>${c.name}</span></a>`
+  ).join('\n        ');
+
+  const popularPairs = [
+    ['USD','EUR'],['USD','GBP'],['USD','AED'],['USD','SAR'],['USD','JPY'],
+    ['EUR','USD'],['EUR','GBP'],['GBP','USD'],['AED','USD'],['SAR','USD'],
+    ['USD','CAD'],['USD','AUD'],['USD','CHF'],['USD','CNY'],['USD','INR'],
+    ['EUR','JPY'],['GBP','EUR'],['USD','MXN'],['USD','KWD'],['USD','QAR'],
+  ].map(([f,t]) => {
+    const fc = currencies.find(c => c.code === f);
+    const tc = currencies.find(c => c.code === t);
+    if (!fc || !tc) return '';
+    return `<a href="/currency/${f.toLowerCase()}-to-${t.toLowerCase()}/" class="conv-pill">${fc.flag || ''} ${f} → ${tc.flag || ''} ${t}</a>`;
+  }).join('\n        ');
+
+  return `${headPartial({ title, description: desc, canonical: url, schema })}
+${SHARED_CSS}
+<style>
+  .cat-chip { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:0.5px solid var(--c-border); border-radius:var(--r-md); font-size:13px; font-weight:500; color:var(--c-text-1); background:var(--c-bg-1); text-decoration:none; transition:border-color .15s,background .15s; }
+  .cat-chip:hover { border-color:var(--c-accent); background:var(--c-bg-2); }
+  .cat-chip span { font-size:11px; color:var(--c-text-2); font-weight:400; }
+  .currency-grid { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 24px; }
+  .conv-pill { display:inline-block; padding:6px 12px; background:var(--c-bg-2); border:0.5px solid var(--c-border); border-radius:20px; font-size:13px; color:var(--c-text-1); text-decoration:none; transition:border-color .15s; }
+  .conv-pill:hover { border-color:var(--c-accent); }
+  .pills-grid { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 24px; }
+  .live-note { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--c-text-2); background:var(--c-bg-2); padding:8px 14px; border-radius:20px; margin-bottom:20px; width:fit-content; }
+  .live-dot { width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
+</style>
+${navPartial('currency')}
+
+<main class="page-wrap">
+  <div class="page-header">
+    <h1>💱 Currency Converter</h1>
+    <p class="page-sub">Live mid-market exchange rates for 40+ currencies, updated daily from the European Central Bank.</p>
+  </div>
+
+  <div class="live-note">
+    <span class="live-dot"></span>
+    Rates from the European Central Bank — updated daily
+  </div>
+
+  <h2 style="font-size:15px; font-weight:600; margin-bottom:4px;">Popular conversions</h2>
+  <div class="pills-grid">
+    ${popularPairs}
+  </div>
+
+  <h2 style="font-size:15px; font-weight:600; margin-bottom:4px; margin-top:24px;">All currencies</h2>
+  <div class="currency-grid">
+    ${currencyGrid}
+  </div>
+
+  <div style="margin-top:32px; padding-top:24px; border-top:0.5px solid var(--c-border);">
+    <h2>About these exchange rates</h2>
+    <p style="font-size:14px; color:var(--c-text-2); line-height:1.7; margin-top:8px;">
+      All rates on ChangingUnits are mid-market reference rates sourced from the European Central Bank (ECB). They represent the midpoint between buy and sell prices and are updated daily. These rates are provided for informational purposes only — actual rates from banks, brokers, or money transfer services will differ due to fees and spreads.
+    </p>
+  </div>
+</main>
+
+${footerPartial()}
+<script>${NAV_SEARCH_JS}</script>
+</html>`;
+}
