@@ -324,8 +324,8 @@ ${navPartial(cat.id)}
       <div class="card">
         <p class="card-label">About this conversion</p>
         <div class="about-text">
-          <p>${aboutFrom} <a href="${glossaryFrom}" class="about-link">Learn more \u2192</a></p>
-          <p>${aboutTo} <a href="${glossaryTo}" class="about-link">Learn more \u2192</a></p>
+          <p>${aboutFrom} <a href="/glossary/${conv.from}/" class="about-link">Learn more \u2192</a></p>
+          <p>${aboutTo} <a href="/glossary/${conv.to}/" class="about-link">Learn more \u2192</a></p>
           <p class="about-sources">Source: <a href="${nistLink}" target="_blank" rel="noopener noreferrer" class="about-link">NIST International Reference</a></p>
         </div>
       </div>
