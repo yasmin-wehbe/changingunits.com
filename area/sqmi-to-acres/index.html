@@ -18,13 +18,15 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"></noscript>
   <style>
   
   :root {
     --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
     --bg:#FFFFFF; --bg-2:#F8F8F7; --bg-3:#F2F2F0;
-    --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+    --t1:#111110; --t2:#555553; --t3:#9B9B96;
     --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
     --r1:4px; --r2:8px; --r3:12px;
     --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
@@ -33,7 +35,7 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{font-size:16px;-webkit-font-smoothing:antialiased;}
   body{font-family:var(--font);background:var(--bg-2);color:var(--t1);min-height:100vh;line-height:1.6;}
-  a{color:var(--accent);text-decoration:none;}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;} .nav-link,.s-link,.rel-link,.conv-pill,.about-link,.cat-card,.gloss-pill,.footer-links a,.breadcrumb a,.result-text a{text-decoration:none;}
   a:hover{text-decoration:underline;}
   button{font-family:var(--font);cursor:pointer;border:none;background:none;}
   .nav{position:sticky;top:0;z-index:100;height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;}
@@ -114,6 +116,11 @@
   .about-link{color:var(--accent);font-size:13px;}
   .about-link:hover{text-decoration:underline;}
   .about-sources{font-size:12px;color:var(--t3);border-top:1px solid var(--border);padding-top:10px;margin-top:10px;}
+  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+  .related-link{display:flex;align-items:center;padding:8px 10px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r2);font-size:12px;font-weight:500;color:var(--t1);text-decoration:none;transition:border-color 0.15s,background 0.15s;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .related-link:hover{border-color:var(--accent);background:var(--accent-light);color:var(--accent);text-decoration:none;}
+  .related-link .arrow{opacity:0.4;flex-shrink:0;font-style:normal;}
+  @media(max-width:480px){.related-grid{grid-template-columns:1fr;}}
   .sidebar{display:flex;flex-direction:column;gap:12px;width:220px;min-width:0;}
   .s-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:14px;box-shadow:var(--sh);width:100%;}
   .s-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block;}
@@ -215,6 +222,29 @@
           <p class="about-sources">Source: <a href="https://www.nist.gov/pml/owm/si-units-length" target="_blank" rel="noopener noreferrer" class="about-link">NIST International Reference</a></p>
         </div>
       </div>
+      <div class="card">
+        <p class="card-label">You might also need</p>
+        <div class="related-grid">
+          <a href="/area/acres-to-sqmi/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Acres → Square Miles</span>
+            </a>
+<a href="/area/sqmi-to-sqmm/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Square Miles → Square Millimeters</span>
+            </a>
+<a href="/area/sqmi-to-sqcm/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Square Miles → Square Centimeters</span>
+            </a>
+<a href="/area/sqmi-to-sqm/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Square Miles → Square Meters</span>
+            </a>
+<a href="/area/sqmi-to-hectares/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Square Miles → Hectares</span>
+            </a>
+<a href="/area/sqmi-to-sqkm/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">Square Miles → Square Kilometers</span>
+            </a>
+        </div>
+      </div>
     </div>
     <aside class="sidebar" aria-label="Related converters">
       <div class="s-card">
@@ -225,32 +255,36 @@
             <span class="s-pop">open</span>
           </a>
           <div class="s-divider"></div>
-          <a href="/area/sqm-to-sqft/" class="s-link">
-            <span class="s-link-text">sqm → sqft</span>
+          <a href="/area/acres-to-sqmi/" class="s-link">
+            <span class="s-link-text">Acres → Square Miles</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/sqft-to-sqm/" class="s-link">
-            <span class="s-link-text">sqft → sqm</span>
+<a href="/area/sqmi-to-sqmm/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Millimeters</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/acres-to-sqm/" class="s-link">
-            <span class="s-link-text">acre → sqm</span>
+<a href="/area/sqmi-to-sqcm/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Centimeters</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/sqm-to-acres/" class="s-link">
-            <span class="s-link-text">sqm → acre</span>
+<a href="/area/sqmi-to-sqm/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Meters</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/hectares-to-acres/" class="s-link">
-            <span class="s-link-text">ha → acre</span>
+<a href="/area/sqmi-to-hectares/" class="s-link">
+            <span class="s-link-text">Square Miles → Hectares</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/acres-to-hectares/" class="s-link">
-            <span class="s-link-text">acre → ha</span>
+<a href="/area/sqmi-to-sqkm/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Kilometers</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
-<a href="/area/sqm-to-hectares/" class="s-link">
-            <span class="s-link-text">sqm → ha</span>
+<a href="/area/sqmi-to-sqin/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Inches</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+<a href="/area/sqmi-to-sqft/" class="s-link">
+            <span class="s-link-text">Square Miles → Square Feet</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </a>
           <div class="s-divider"></div>

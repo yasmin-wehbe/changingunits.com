@@ -66,7 +66,9 @@ function headPartial({ title, description, canonical, schema }) {
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">`;
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"></noscript>`;
 }
 
 // ── SHARED CSS ────────────────────────────────────────────────
@@ -75,7 +77,7 @@ const SHARED_CSS = `
   :root {
     --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
     --bg:#FFFFFF; --bg-2:#F8F8F7; --bg-3:#F2F2F0;
-    --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+    --t1:#111110; --t2:#555553; --t3:#9B9B96;
     --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
     --r1:4px; --r2:8px; --r3:12px;
     --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
@@ -84,7 +86,7 @@ const SHARED_CSS = `
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{font-size:16px;-webkit-font-smoothing:antialiased;}
   body{font-family:var(--font);background:var(--bg-2);color:var(--t1);min-height:100vh;line-height:1.6;}
-  a{color:var(--accent);text-decoration:none;}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;} .nav-link,.s-link,.rel-link,.conv-pill,.about-link,.cat-card,.gloss-pill,.footer-links a,.breadcrumb a,.result-text a{text-decoration:none;}
   a:hover{text-decoration:underline;}
   button{font-family:var(--font);cursor:pointer;border:none;background:none;}
   .nav{position:sticky;top:0;z-index:100;height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;}
@@ -244,6 +246,11 @@ function converterPageTemplate(cat, conv) {
   .about-link{color:var(--accent);font-size:13px;}
   .about-link:hover{text-decoration:underline;}
   .about-sources{font-size:12px;color:var(--t3);border-top:1px solid var(--border);padding-top:10px;margin-top:10px;}
+  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+  .related-link{display:flex;align-items:center;padding:8px 10px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r2);font-size:12px;font-weight:500;color:var(--t1);text-decoration:none;transition:border-color 0.15s,background 0.15s;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .related-link:hover{border-color:var(--accent);background:var(--accent-light);color:var(--accent);text-decoration:none;}
+  .related-link .arrow{opacity:0.4;flex-shrink:0;font-style:normal;}
+  @media(max-width:480px){.related-grid{grid-template-columns:1fr;}}
   .sidebar{display:flex;flex-direction:column;gap:12px;width:220px;min-width:0;}
   .s-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:14px;box-shadow:var(--sh);width:100%;}
   .s-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block;}
@@ -327,6 +334,12 @@ ${navPartial(cat.id)}
           <p>${aboutFrom} <a href="/glossary/${conv.from}/" class="about-link">Learn more \u2192</a></p>
           <p>${aboutTo} <a href="/glossary/${conv.to}/" class="about-link">Learn more \u2192</a></p>
           <p class="about-sources">Source: <a href="${nistLink}" target="_blank" rel="noopener noreferrer" class="about-link">NIST International Reference</a></p>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-label">You might also need</p>
+        <div class="related-grid">
+          ${buildRelatedGrid(cat, conv.slug)}
         </div>
       </div>
     </div>
@@ -508,14 +521,82 @@ function buildReverseSlug(conv) {
 }
 
 function buildSidebarLinks(cat, currentSlug) {
-  return cat.converters
+  const current = cat.converters.find(c => c.slug === currentSlug);
+  if (!current) return '';
+
+  // Score each converter by relevance to current page
+  const scored = cat.converters
     .filter(c => c.slug !== currentSlug)
-    .slice(0, 7)
-    .map(c => `<a href="/${cat.id}/${c.slug}/" class="s-link">
-            <span class="s-link-text">${c.from} \u2192 ${c.to}</span>
+    .map(c => {
+      let score = 0;
+      // Shares the same FROM unit — most relevant (e.g. on cm→in, show cm→mm, cm→ft)
+      if (c.from === current.from) score += 10;
+      // Shares the same TO unit — also relevant (e.g. on cm→in, show mm→in, m→in)
+      if (c.to === current.to) score += 8;
+      // Is the reverse conversion
+      if (c.from === current.to && c.to === current.from) score += 7;
+      // Shares either unit in any position
+      if (c.from === current.to || c.to === current.from) score += 4;
+      // Is marked popular
+      if (c.popular) score += 2;
+      return { c, score };
+    })
+    .filter(({ score }) => score > 0 || cat.converters.length < 20)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8)
+    .map(({ c }) => c);
+
+  // Fallback: if not enough scored results, pad with popular converters
+  if (scored.length < 4) {
+    const existing = new Set(scored.map(c => c.slug));
+    existing.add(currentSlug);
+    const popular = cat.converters
+      .filter(c => !existing.has(c.slug) && c.popular)
+      .slice(0, 8 - scored.length);
+    scored.push(...popular);
+  }
+
+  return scored.map(c => `<a href="/${cat.id}/${c.slug}/" class="s-link">
+            <span class="s-link-text">${c.fromName} \u2192 ${c.toName}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </a>`)
-    .join('\n');
+          </a>`).join('\n');
+}
+
+function buildRelatedGrid(cat, currentSlug) {
+  const current = cat.converters.find(c => c.slug === currentSlug);
+  if (!current) return '';
+
+  const scored = cat.converters
+    .filter(c => c.slug !== currentSlug)
+    .map(c => {
+      let score = 0;
+      if (c.from === current.from) score += 10;
+      if (c.to === current.to) score += 8;
+      if (c.from === current.to && c.to === current.from) score += 7;
+      if (c.from === current.to || c.to === current.from) score += 4;
+      if (c.popular) score += 2;
+      return { c, score };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 6)
+    .map(({ c }) => c);
+
+  // Pad with popular if needed
+  if (scored.length < 4) {
+    const existing = new Set(scored.map(c => c.slug));
+    existing.add(currentSlug);
+    cat.converters
+      .filter(c => !existing.has(c.slug) && c.popular)
+      .slice(0, 6 - scored.length)
+      .forEach(c => scored.push(c));
+  }
+
+  return scored.map(c =>
+    `<a href="/${cat.id}/${c.slug}/" class="related-link">
+              <span style="overflow:hidden;text-overflow:ellipsis;">${c.fromName} \u2192 ${c.toName}</span>
+            </a>`
+  ).join('\n');
 }
 
 function buildOtherCatLinks(currentCatId) {
@@ -636,12 +717,14 @@ ${chips}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"></noscript>
   <style>
     :root {
       --accent:#4F46E5; --accent-light:#EEF2FF; --accent-dark:#3730A3;
       --bg:#FFFFFF; --bg-2:#F8F8F7;
-      --t1:#111110; --t2:#6B6B68; --t3:#9B9B96;
+      --t1:#111110; --t2:#555553; --t3:#9B9B96;
       --border:rgba(0,0,0,0.08); --border-s:rgba(0,0,0,0.14);
       --r1:4px; --r2:8px; --r3:12px;
       --sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
@@ -650,7 +733,7 @@ ${chips}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{font-size:16px;-webkit-font-smoothing:antialiased;}
     body{font-family:var(--font);background:var(--bg-2);color:var(--t1);min-height:100vh;line-height:1.6;}
-    a{color:var(--accent);text-decoration:none;}
+    a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;} .nav-link,.s-link,.rel-link,.conv-pill,.about-link,.cat-card,.gloss-pill,.footer-links a,.breadcrumb a,.result-text a{text-decoration:none;}
     a:hover{text-decoration:underline;}
     button{font-family:var(--font);cursor:pointer;border:none;background:none;}
     .nav{position:sticky;top:0;z-index:100;height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:24px;}
