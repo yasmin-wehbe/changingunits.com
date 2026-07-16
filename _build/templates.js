@@ -597,7 +597,7 @@ ${chips}
 
   // Build URL map JS from converter data
   const urlMapEntries = cat.converters
-    .map(c => `  '${c.from}_${c.to}': '/${cat.id}/${c.slug}/'`)
+    .map(c => `  '${c.from.toLowerCase()}_${c.to.toLowerCase()}': '/${cat.id}/${c.slug}/'`)
     .join(',\n');
 
   // Build UNITS JS array from data
@@ -1045,20 +1045,69 @@ document.getElementById('toPill').addEventListener('click',    function(e) { if 
 </html>`;
 }
 
+// Short about text per currency code
+function getCurrencyAbout(code) {
+  var about = {
+    USD: 'The <strong>United States Dollar</strong> (USD) is the world\'s primary reserve currency, used in the majority of global trade and financial transactions.',
+    EUR: 'The <strong>Euro</strong> (EUR) is the official currency of 20 European Union member states, making it the second most traded currency in the world.',
+    GBP: 'The <strong>British Pound Sterling</strong> (GBP) is one of the oldest currencies in existence and the fourth most traded currency globally.',
+    JPY: 'The <strong>Japanese Yen</strong> (JPY) is the third most traded currency in the world and a common safe-haven asset during times of market uncertainty.',
+    CHF: 'The <strong>Swiss Franc</strong> (CHF) is known for its stability and is considered a safe-haven currency, backed by Switzerland\'s strong financial system.',
+    AUD: 'The <strong>Australian Dollar</strong> (AUD) is the fifth most traded currency globally, strongly influenced by commodity prices and the Asia-Pacific economy.',
+    CAD: 'The <strong>Canadian Dollar</strong> (CAD) is closely tied to commodity prices, particularly oil, given Canada\'s role as a major energy exporter.',
+    CNY: 'The <strong>Chinese Yuan</strong> (CNY) is the official currency of China, the world\'s second largest economy and major global trading partner.',
+    HKD: 'The <strong>Hong Kong Dollar</strong> (HKD) is pegged to the US Dollar and serves as an important currency in Asian financial markets.',
+    SGD: 'The <strong>Singapore Dollar</strong> (SGD) is one of the strongest and most stable currencies in Asia, reflecting Singapore\'s role as a global financial hub.',
+    SEK: 'The <strong>Swedish Krona</strong> (SEK) is the currency of Sweden, a highly developed economy known for its export-oriented industries.',
+    NOK: 'The <strong>Norwegian Krone</strong> (NOK) is heavily influenced by oil prices, as Norway is one of the world\'s largest petroleum exporters.',
+    DKK: 'The <strong>Danish Krone</strong> (DKK) is pegged to the Euro through the Exchange Rate Mechanism and is one of Europe\'s most stable currencies.',
+    NZD: 'The <strong>New Zealand Dollar</strong> (NZD) is influenced by agricultural commodity prices and the country\'s close economic ties with Australia.',
+    MXN: 'The <strong>Mexican Peso</strong> (MXN) is the most traded Latin American currency, closely linked to the US economy due to NAFTA/USMCA trade.',
+    BRL: 'The <strong>Brazilian Real</strong> (BRL) is the currency of South America\'s largest economy, influenced by commodity exports and political developments.',
+    INR: 'The <strong>Indian Rupee</strong> (INR) is the currency of the world\'s most populous country and one of the fastest-growing major economies.',
+    KRW: 'The <strong>South Korean Won</strong> (KRW) is the currency of Asia\'s fourth largest economy, known for its technology and manufacturing exports.',
+    TRY: 'The <strong>Turkish Lira</strong> (TRY) is the currency of Turkey, a major emerging market economy bridging Europe and the Middle East.',
+    ZAR: 'The <strong>South African Rand</strong> (ZAR) is the most traded African currency and a proxy for emerging market sentiment globally.',
+    AED: 'The <strong>UAE Dirham</strong> (AED) is pegged to the US Dollar and serves as the currency of the United Arab Emirates, a major global financial and trade hub.',
+    SAR: 'The <strong>Saudi Riyal</strong> (SAR) is pegged to the US Dollar and is the currency of Saudi Arabia, the world\'s largest oil exporter.',
+    QAR: 'The <strong>Qatari Riyal</strong> (QAR) is pegged to the US Dollar and is the currency of Qatar, one of the world\'s wealthiest nations per capita.',
+    KWD: 'The <strong>Kuwaiti Dinar</strong> (KWD) is consistently one of the highest-valued currencies in the world, backed by Kuwait\'s vast oil reserves.',
+    BHD: 'The <strong>Bahraini Dinar</strong> (BHD) is pegged to the US Dollar and is one of the highest-valued currencies globally.',
+    OMR: 'The <strong>Omani Rial</strong> (OMR) is pegged to the US Dollar and is one of the highest-valued currencies in the world.',
+    EGP: 'The <strong>Egyptian Pound</strong> (EGP) is the currency of Egypt, the most populous Arab country and a major regional economy.',
+    PLN: 'The <strong>Polish Zloty</strong> (PLN) is the currency of Poland, Central Europe\'s largest economy and one of the EU\'s fastest-growing members.',
+    CZK: 'The <strong>Czech Koruna</strong> (CZK) is the currency of the Czech Republic, a highly developed Central European economy.',
+    HUF: 'The <strong>Hungarian Forint</strong> (HUF) is the currency of Hungary, a key manufacturing hub in Central Europe.',
+    RON: 'The <strong>Romanian Leu</strong> (RON) is the currency of Romania, one of the fastest-growing economies in the European Union.',
+    ILS: 'The <strong>Israeli New Shekel</strong> (ILS) is the currency of Israel, a highly developed economy known for its technology sector.',
+    THB: 'The <strong>Thai Baht</strong> (THB) is one of Southeast Asia\'s most stable currencies and the currency of a major tourist destination.',
+    MYR: 'The <strong>Malaysian Ringgit</strong> (MYR) is the currency of Malaysia, a highly open and export-oriented economy in Southeast Asia.',
+    IDR: 'The <strong>Indonesian Rupiah</strong> (IDR) is the currency of Southeast Asia\'s largest economy and one of the world\'s most populous nations.',
+    PHP: 'The <strong>Philippine Peso</strong> (PHP) is the currency of the Philippines, an archipelago nation with a fast-growing service economy.',
+    PKR: 'The <strong>Pakistani Rupee</strong> (PKR) is the currency of Pakistan, one of the world\'s most populous countries.',
+    CLP: 'The <strong>Chilean Peso</strong> (CLP) is the currency of Chile, the world\'s largest copper producer and one of Latin America\'s most stable economies.',
+    COP: 'The <strong>Colombian Peso</strong> (COP) is the currency of Colombia, South America\'s third largest economy.',
+    MAD: 'The <strong>Moroccan Dirham</strong> (MAD) is the currency of Morocco, a North African country with a diversified economy and growing tourism sector.',
+  };
+  return about[code] || 'A widely traded global currency used in international commerce and finance.';
+}
+
+
 // ── CURRENCY CONVERTER TEMPLATE ──────────────────────────────
-// Live rates fetched from Frankfurter API on page load
-// No static factor — rate is always current
+// Uses the exact same layout as converterPageTemplate
+// but fetches live rate from Frankfurter instead of using a static factor
 
 function currencyConverterTemplate(fromCode, toCode, fromName, toName, allCurrencies) {
-  const slug = fromCode.toLowerCase() + '-to-' + toCode.toLowerCase();
-  const url  = `${SITE.domain}/currency/${slug}/`;
+  const slug     = fromCode.toLowerCase() + '-to-' + toCode.toLowerCase();
+  const revSlug  = toCode.toLowerCase() + '-to-' + fromCode.toLowerCase();
+  const url      = `${SITE.domain}/currency/${slug}/`;
   const titleTag = `${fromName} to ${toName} Converter`;
-  const metaDesc = `Convert ${fromName} to ${toName} with live exchange rates. Free, accurate, updated daily from the European Central Bank.`;
+  const metaDesc = `Convert ${fromName} to ${toName} with live exchange rates. Free and accurate — updated daily from the European Central Bank.`;
 
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": titleTag,
+    "name": titleTag + " | ChangingUnits",
     "url": url,
     "description": metaDesc,
     "applicationCategory": "UtilitiesApplication",
@@ -1074,280 +1123,320 @@ function currencyConverterTemplate(fromCode, toCode, fromName, toName, allCurren
     }
   };
 
-  // Related currency pairs for sidebar
-  const related = allCurrencies
+  const aboutFrom = getCurrencyAbout(fromCode);
+  const aboutTo   = getCurrencyAbout(toCode);
+
+  // Sidebar: other pairs from same base currency
+  const sidebarLinks = allCurrencies
     .filter(c => c.code !== fromCode && c.code !== toCode)
-    .slice(0, 8)
-    .map(c => `<a href="/currency/${fromCode.toLowerCase()}-to-${c.code.toLowerCase()}/" class="rel-link">${fromCode} → ${c.code}</a>`)
-    .join('\n          ');
+    .slice(0, 7)
+    .map(c => `<a href="/currency/${fromCode.toLowerCase()}-to-${c.code.toLowerCase()}/" class="s-link">
+            <span class="s-link-text">${fromCode} \u2192 ${c.code}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>`)
+    .join('\n');
 
-  return `${headPartial({ title: titleTag, description: metaDesc, canonical: url, schema })}
-${SHARED_CSS}
-<style>
-  .rate-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--c-text-2); background:var(--c-bg-2); padding:4px 10px; border-radius:20px; margin-bottom:16px; }
-  .rate-badge .dot { width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
-  .rate-badge .dot.stale { background:#f59e0b; }
-  .rate-source { font-size:11px; color:var(--c-text-3); margin-top:10px; }
-  .rate-source a { color:inherit; text-decoration:underline; }
-  .disclaimer-box { background:var(--c-bg-2); border:0.5px solid var(--c-border); border-radius:var(--r-md); padding:12px 16px; font-size:12px; color:var(--c-text-2); line-height:1.6; margin-top:16px; }
-  .loading-state { text-align:center; padding:24px; color:var(--c-text-2); font-size:14px; }
-  .error-state { text-align:center; padding:24px; color:#ef4444; font-size:13px; }
-</style>
+  return `${headPartial({ title: `${titleTag} | ChangingUnits`, description: metaDesc, canonical: url, schema })}
+  <style>
+  ${SHARED_CSS}
+  .page-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;align-items:start;margin-top:20px;}
+  .main-col{display:flex;flex-direction:column;gap:14px;min-width:0;}
+  .page-title{font-size:26px;font-weight:600;color:var(--t1);letter-spacing:-0.5px;line-height:1.2;}
+  .page-subtitle{font-size:14px;color:var(--t2);margin-top:5px;}
+  .card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:22px;box-shadow:var(--sh);}
+  .card{animation:fadeUp 0.25s ease both;}
+  .card:nth-child(2){animation-delay:0.05s;}
+  .card:nth-child(3){animation-delay:0.10s;}
+  .card:nth-child(4){animation-delay:0.15s;}
+  .card-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:14px;}
+  .conv-row{display:grid;grid-template-columns:1fr 48px 1fr;gap:10px;align-items:end;}
+  .input-group{display:flex;flex-direction:column;gap:6px;}
+  .input-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;}
+  .input-field{width:100%;height:60px;border:1.5px solid var(--border-s);border-radius:var(--r2);padding:0 14px;font-family:var(--font);font-size:24px;font-weight:600;color:var(--t1);background:var(--bg-2);outline:none;transition:border-color 0.15s;letter-spacing:-0.4px;}
+  .input-field:focus{border-color:var(--accent);background:var(--bg);}
+  .input-field.result-field{background:var(--accent-light);border-color:transparent;color:var(--accent-dark);cursor:default;}
+  .unit-label{font-size:12px;font-weight:500;color:var(--t2);margin-top:5px;}
+  .swap-col{display:flex;align-items:center;justify-content:center;padding-bottom:22px;}
+  .swap-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border-s);background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--t2);transition:border-color 0.15s,color 0.15s,transform 0.3s ease;box-shadow:var(--sh);}
+  .swap-btn:hover{border-color:var(--accent);color:var(--accent);transform:rotate(180deg);}
+  .result-bar{margin-top:16px;padding:13px 16px;background:var(--bg-2);border-radius:var(--r2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .result-text{font-size:15px;font-weight:500;color:var(--t1);}
+  .result-text .val{color:var(--accent);}
+  .copy-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--r1);border:1px solid var(--border-s);background:var(--bg);font-size:12px;font-weight:500;color:var(--t2);transition:all 0.15s;}
+  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .copy-btn.copied{border-color:#10B981;color:#10B981;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em;padding:0 10px 10px;text-align:left;border-bottom:1px solid var(--border);}
+  tbody tr{transition:background 0.1s;}
+  tbody tr:hover{background:var(--bg-2);}
+  tbody td{padding:9px 10px;font-size:13px;border-bottom:1px solid var(--border);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td:first-child{color:var(--t2);}
+  tbody td:last-child{font-weight:500;color:var(--accent);}
+  .formula-code{background:var(--bg-2);border-radius:var(--r2);padding:13px 16px;font-family:'Courier New',monospace;font-size:14px;color:var(--accent-dark);font-weight:600;margin-bottom:12px;border-left:3px solid var(--accent);}
+  .formula-desc{font-size:13px;color:var(--t2);line-height:1.65;}
+  .about-text p{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:10px;}
+  .about-text p:last-child{margin-bottom:0;}
+  .about-text strong{color:var(--t1);font-weight:600;}
+  .about-link{color:var(--accent);font-size:13px;}
+  .rate-note{font-size:12px;color:var(--t3);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+  .rate-note a{color:var(--accent);}
+  .loading-row{text-align:center;padding:12px;color:var(--t3);font-size:13px;}
+  .sidebar{display:flex;flex-direction:column;gap:12px;width:220px;min-width:0;}
+  .s-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:14px;box-shadow:var(--sh);width:100%;}
+  .s-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block;}
+  .s-links{display:flex;flex-direction:column;}
+  .s-link{display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:6px 6px;border-radius:var(--r1);font-size:12px;font-weight:500;color:var(--t2);gap:4px;text-decoration:none;transition:background 0.1s,color 0.1s;width:100%;}
+  .s-link:hover{background:var(--bg-2);color:var(--t1);}
+  .s-link.active{background:var(--accent-light);color:var(--accent);}
+  .s-link-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .s-link svg{flex-shrink:0;opacity:0.3;}
+  .s-link:hover svg{opacity:0.6;}
+  .s-pop{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--accent-light);color:var(--accent);font-weight:700;flex-shrink:0;white-space:nowrap;}
+  .s-divider{height:1px;background:var(--border);margin:2px 0;}
+  .share-row{display:flex;flex-direction:row;gap:6px;align-items:center;}
+  .share-input{flex:1;min-width:0;width:0;font-size:10px;color:var(--t2);background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r1);padding:6px 7px;font-family:'Courier New',monospace;outline:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:border-color 0.15s;}
+  .share-input:focus{border-color:var(--accent);}
+  .share-btn{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:var(--r1);border:1px solid var(--border-s);background:var(--bg);color:var(--t2);cursor:pointer;transition:all 0.15s;}
+  .share-btn:hover{border-color:var(--accent);color:var(--accent);}
+  @media(max-width:760px){.page-grid{grid-template-columns:1fr;}.sidebar{display:none;}.conv-row{grid-template-columns:1fr 40px 1fr;}}
+  @media(max-width:480px){.conv-row{grid-template-columns:1fr;gap:8px;}.swap-col{padding-bottom:0;}}
+  </style>
+</head>
+<body>
 ${navPartial('currency')}
-
-<main class="page-wrap">
+<main>
+<div class="page-wrap">
   <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a><span aria-hidden="true"> › </span>
-    <a href="/currency/">Currency</a><span aria-hidden="true"> › </span>
-    <span aria-current="page">${fromCode} to ${toCode}</span>
+    <a href="/">Home</a><span>›</span>
+    <a href="/currency/">Currency</a><span>›</span>
+    <span class="current">${fromName} to ${toName}</span>
   </nav>
-
-  <div class="two-col">
+  <div class="page-grid">
     <div class="main-col">
-      <h1>${fromName} to ${toName}</h1>
-      <p class="page-sub">Convert ${fromCode} to ${toCode} with live mid-market exchange rates.</p>
-
-      <div id="rateBadge" class="rate-badge">
-        <span class="dot" id="rateDot"></span>
-        <span id="rateStatus">Loading rate…</span>
+      <div>
+        <h1 class="page-title">${fromName} to ${toName}</h1>
+        <p class="page-subtitle">Live mid-market rate — updated daily from the European Central Bank.</p>
       </div>
-
-      <div class="conv-card" id="convCard">
-        <div class="loading-state" id="loadingState">Fetching live rate…</div>
-        <div id="converterUI" style="display:none">
-          <div class="conv-inputs">
-            <div class="input-group">
-              <label for="inputFrom" id="labelFrom">${fromName} (${fromCode})</label>
-              <div class="input-wrap">
-                <input type="number" id="inputFrom" value="1" min="0" step="any" autocomplete="off">
-                <span class="unit-badge" id="fromUnit">${fromCode}</span>
-              </div>
-            </div>
-            <button class="swap-btn" id="swapBtn" aria-label="Swap currencies" title="Swap">⇄</button>
-            <div class="input-group">
-              <label for="inputTo" id="labelTo">${toName} (${toCode})</label>
-              <div class="input-wrap">
-                <input type="number" id="inputTo" readonly>
-                <span class="unit-badge" id="toUnit">${toCode}</span>
-              </div>
-            </div>
+      <div class="card">
+        <div class="conv-row">
+          <div class="input-group">
+            <label class="input-label" for="inputFrom" id="labelFrom">${fromName} (${fromCode})</label>
+            <input type="number" id="inputFrom" class="input-field" value="1" inputmode="decimal" aria-label="Amount in ${fromName}">
+            <span class="unit-label" id="fromUnit">${fromCode}</span>
           </div>
-          <div class="result-bar">
-            <span id="resultText">—</span>
-            <button class="copy-btn" id="copyBtn" aria-label="Copy result">Copy</button>
+          <div class="swap-col">
+            <button class="swap-btn" id="swapBtn" aria-label="Swap currencies" title="Swap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 9h16M4 9l4-4M4 9l4 4M20 15H4M20 15l-4-4M20 15l-4 4"/>
+              </svg>
+            </button>
           </div>
-          <div class="rate-source">
-            Rate: <strong id="rateDisplay">—</strong> &nbsp;·&nbsp;
-            Source: <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener noreferrer">European Central Bank</a>
-            &nbsp;·&nbsp; Updated: <span id="rateDate">—</span>
+          <div class="input-group">
+            <label class="input-label" for="inputTo" id="labelTo">${toName} (${toCode})</label>
+            <input type="text" id="inputTo" class="input-field result-field" readonly aria-label="Result in ${toName}" aria-live="polite">
+            <span class="unit-label" id="toUnit">${toCode}</span>
           </div>
         </div>
-        <div class="error-state" id="errorState" style="display:none">
-          Unable to load live rate. Please try again later.
+        <div class="result-bar">
+          <span class="result-text" id="resultText">Loading rate\u2026</span>
+          <button class="copy-btn" id="copyBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            Copy
+          </button>
         </div>
       </div>
-
-      <div class="disclaimer-box">
-        ⚠️ Rates are mid-market reference rates from the European Central Bank, updated daily. They are provided for informational purposes only and may differ from rates offered by banks, brokers, or money transfer services. Not suitable for commercial transactions.
+      <div class="card">
+        <p class="card-label">Quick reference</p>
+        <table>
+          <thead><tr><th id="thFrom">${fromName} (${fromCode})</th><th id="thTo">${toName} (${toCode})</th></tr></thead>
+          <tbody id="refTable"><tr><td colspan="2" class="loading-row">Loading live rates\u2026</td></tr></tbody>
+        </table>
       </div>
-
-      <div class="about-card" style="margin-top:24px;">
-        <h2>About ${fromCode} and ${toCode}</h2>
-        <p><strong>${fromCode} — ${fromName}:</strong> ${getCurrencyAbout(fromCode)}</p>
-        <p style="margin-top:10px;"><strong>${toCode} — ${toName}:</strong> ${getCurrencyAbout(toCode)}</p>
+      <div class="card">
+        <p class="card-label">About this conversion</p>
+        <div class="about-text">
+          <p>${aboutFrom}</p>
+          <p>${aboutTo}</p>
+          <div class="rate-note">
+            \u26A0\uFE0F Rates are mid-market reference rates from the <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/" target="_blank" rel="noopener noreferrer">European Central Bank</a>, updated daily. They are for informational purposes only and may differ from rates at banks or money transfer services. Last updated: <span id="rateDate">\u2014</span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <aside class="side-col">
-      <div class="sidebar-card">
-        <div class="sidebar-title">Other ${fromCode} conversions</div>
-        ${related}
+    <aside class="sidebar" aria-label="Related converters">
+      <div class="s-card">
+        <span class="s-title">Currency converters</span>
+        <div class="s-links">
+          <a href="/currency/${slug}/" class="s-link active" aria-current="page">
+            <span class="s-link-text">${fromCode} \u2192 ${toCode}</span>
+            <span class="s-pop">open</span>
+          </a>
+          <a href="/currency/${revSlug}/" class="s-link">
+            <span class="s-link-text">${toCode} \u2192 ${fromCode}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <div class="s-divider"></div>
+          ${sidebarLinks}
+          <div class="s-divider"></div>
+          <a href="/currency/" class="s-link" style="color:var(--accent)">
+            <span class="s-link-text">All currencies</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </div>
       </div>
-      <div class="sidebar-card" style="margin-top:12px;">
-        <div class="sidebar-title">All categories</div>
-        <a href="/length/" class="rel-link">📏 Length</a>
-        <a href="/weight/" class="rel-link">⚖️ Weight</a>
-        <a href="/temperature/" class="rel-link">🌡️ Temperature</a>
-        <a href="/area/" class="rel-link">📐 Area</a>
-        <a href="/volume/" class="rel-link">🧪 Volume</a>
-        <a href="/speed/" class="rel-link">🚀 Speed</a>
-        <a href="/time/" class="rel-link">⏱️ Time</a>
-        <a href="/data/" class="rel-link">💾 Data</a>
-        <a href="/energy/" class="rel-link">⚡ Energy</a>
-        <a href="/pressure/" class="rel-link">💨 Pressure</a>
-        <a href="/currency/" class="rel-link">💱 Currency</a>
+      <div class="s-card">
+        <span class="s-title">Share this result</span>
+        <div class="share-row">
+          <input type="text" class="share-input" id="shareUrl" readonly value="changingunits.com/currency/${slug}/?v=1" aria-label="Shareable URL">
+          <button class="share-btn" id="shareCopyBtn" aria-label="Copy link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="s-card">
+        <span class="s-title">Other categories</span>
+        <div class="s-links">
+          ${buildOtherCatLinks('currency')}
+        </div>
       </div>
     </aside>
   </div>
+</div>
 </main>
-
 ${footerPartial()}
-
 <script>
-  // ── CONFIG ──────────────────────────────────────────────────
   var FROM = '${fromCode}', TO = '${toCode}';
   var FROM_NAME = '${fromName}', TO_NAME = '${toName}';
   var swapped = false;
   var liveRate = null;
+  var REF_AMOUNTS = [1, 5, 10, 20, 50, 100, 200, 500, 1000, 5000];
 
-  // ── ELEMENTS ────────────────────────────────────────────────
-  var $from    = document.getElementById('inputFrom');
-  var $to      = document.getElementById('inputTo');
-  var $result  = document.getElementById('resultText');
-  var $swap    = document.getElementById('swapBtn');
-  var $copy    = document.getElementById('copyBtn');
-  var $loading = document.getElementById('loadingState');
-  var $ui      = document.getElementById('converterUI');
-  var $error   = document.getElementById('errorState');
-  var $status  = document.getElementById('rateStatus');
-  var $dot     = document.getElementById('rateDot');
-  var $rateDisp= document.getElementById('rateDisplay');
-  var $rateDate= document.getElementById('rateDate');
+  var $from   = document.getElementById('inputFrom');
+  var $to     = document.getElementById('inputTo');
+  var $result = document.getElementById('resultText');
+  var $copy   = document.getElementById('copyBtn');
+  var $swap   = document.getElementById('swapBtn');
+  var $share  = document.getElementById('shareUrl');
+  var $scopy  = document.getElementById('shareCopyBtn');
+  var $table  = document.getElementById('refTable');
 
-  // ── FETCH LIVE RATE ─────────────────────────────────────────
-  function fetchRate() {
-    var base = swapped ? TO : FROM;
-    var quote = swapped ? FROM : TO;
-    var apiURL = 'https://api.frankfurter.dev/v2/latest?base=' + base + '&symbols=' + quote;
+  function currentFrom() { return swapped ? TO : FROM; }
+  function currentTo()   { return swapped ? FROM : TO; }
+  function currentFromName() { return swapped ? TO_NAME : FROM_NAME; }
+  function currentToName()   { return swapped ? FROM_NAME : TO_NAME; }
 
-    fetch(apiURL)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        liveRate = data.rates[quote];
-        var dateStr = data.date || 'today';
-        $loading.style.display = 'none';
-        $ui.style.display = 'block';
-        $dot.className = 'dot';
-        $status.textContent = '1 ' + base + ' = ' + formatNum(liveRate) + ' ' + quote;
-        $rateDisp.textContent = '1 ' + base + ' = ' + formatNum(liveRate) + ' ' + quote;
-        $rateDate.textContent = dateStr;
-        update();
-      })
-      .catch(function() {
-        $loading.style.display = 'none';
-        $error.style.display = 'block';
-        $dot.className = 'dot stale';
-        $status.textContent = 'Rate unavailable';
-      });
+  function fmt(n) {
+    if (isNaN(n) || n === null) return '\u2014';
+    if (Math.abs(n) >= 1000000) return n.toLocaleString('en', {maximumFractionDigits:2});
+    if (Math.abs(n) >= 1000)   return n.toLocaleString('en', {maximumFractionDigits:4});
+    if (Math.abs(n) >= 0.01)   return parseFloat(n.toFixed(4)).toString();
+    return n.toExponential(4);
   }
 
-  // ── CONVERSION ──────────────────────────────────────────────
-  function formatNum(n) {
-    if (n === null || n === undefined || isNaN(n)) return '—';
-    if (Math.abs(n) < 0.0001) return n.toExponential(4);
-    if (Math.abs(n) >= 1000000) return n.toLocaleString('en', {maximumFractionDigits:2});
-    return parseFloat(n.toPrecision(7)).toString();
+  // ECB-supported currencies that can be used as a direct base in Frankfurter
+  var ECB_CURRENCIES = ['AUD','BGN','BRL','CAD','CHF','CNY','CZK','DKK','EUR','GBP',
+    'HKD','HUF','IDR','ILS','INR','ISK','JPY','KRW','MXN','MYR','NOK','NZD',
+    'PHP','PLN','RON','SEK','SGD','THB','TRY','USD','ZAR'];
+
+  function fetchRate() {
+    var base  = currentFrom();
+    var quote = currentTo();
+    $result.textContent = 'Loading rate\u2026';
+    $table.innerHTML = '<tr><td colspan="2" class="loading-row">Loading\u2026</td></tr>';
+
+    // Always fetch via EUR cross-rate — works for all currencies including Gulf ones
+    // EUR is always supported as base in Frankfurter
+    var symbols = [base, quote].filter(function(c) { return c !== 'EUR'; }).join(',');
+    var url = 'https://api.frankfurter.dev/v2/latest?base=EUR' + (symbols ? '&symbols=' + symbols : '');
+
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var rates = data.rates || {};
+        // Cross rate: base→quote = (EUR→quote) / (EUR→base)
+        var rateBase  = (base  === 'EUR') ? 1 : rates[base];
+        var rateQuote = (quote === 'EUR') ? 1 : rates[quote];
+        if (!rateBase || !rateQuote) throw new Error('Currency not found: ' + base + ' or ' + quote);
+        liveRate = rateQuote / rateBase;
+        var dateEl = document.getElementById('rateDate');
+        if (dateEl) dateEl.textContent = data.date || 'today';
+        update();
+        buildTable();
+      })
+      .catch(function() {
+        $result.textContent = 'Rate unavailable \u2014 please try again later.';
+        $table.innerHTML = '<tr><td colspan="2" class="loading-row">Could not load rates.</td></tr>';
+      });
   }
 
   function update() {
     if (!liveRate) return;
-    var val = parseFloat($from.value);
-    if (isNaN(val) || val === '') { $to.value = ''; $result.textContent = '—'; return; }
-    var result = val * liveRate;
-    $to.value = formatNum(result);
-    $result.textContent = formatNum(val) + ' ' + (swapped ? TO : FROM) + ' = ' + formatNum(result) + ' ' + (swapped ? FROM : TO);
+    var raw = parseFloat($from.value);
+    if (isNaN(raw)) { $to.value = ''; $result.innerHTML = '\u2014'; return; }
+    var res = raw * liveRate;
+    $to.value = fmt(res);
+    $result.innerHTML = raw.toLocaleString() + ' ' + currentFrom() + ' = <span class="val">' + fmt(res) + ' ' + currentTo() + '</span>';
+    var url = '/currency/${slug}/?v=' + raw;
+    try { history.replaceState({}, '', url); } catch(e) {}
+    $share.value = 'changingunits.com' + url;
+  }
+
+  function buildTable() {
+    if (!liveRate) return;
+    document.getElementById('thFrom').textContent = currentFromName() + ' (' + currentFrom() + ')';
+    document.getElementById('thTo').textContent   = currentToName()   + ' (' + currentTo()   + ')';
+    $table.innerHTML = REF_AMOUNTS.map(function(v) {
+      return '<tr><td>' + v + ' ' + currentFrom() + '</td><td>' + fmt(v * liveRate) + ' ' + currentTo() + '</td></tr>';
+    }).join('');
   }
 
   function copyText(text, btn) {
     navigator.clipboard.writeText(text).then(function() {
-      var orig = btn.textContent; btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = orig; }, 1500);
+      var orig = btn.innerHTML;
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+      btn.classList.add('copied');
+      setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
     });
   }
-
-  // ── EVENTS ──────────────────────────────────────────────────
-  $from.addEventListener('input', update);
 
   $swap.addEventListener('click', function() {
     swapped = !swapped;
     var curRes = parseFloat($to.value);
-    $from.value = isNaN(curRes) ? '' : curRes;
-    document.querySelector('label[for=inputFrom]').textContent = (swapped ? TO_NAME : FROM_NAME) + ' (' + (swapped ? TO : FROM) + ')';
-    document.querySelector('label[for=inputTo]').textContent   = (swapped ? FROM_NAME : TO_NAME) + ' (' + (swapped ? FROM : TO) + ')';
-    document.getElementById('fromUnit').textContent = swapped ? TO : FROM;
-    document.getElementById('toUnit').textContent   = swapped ? FROM : TO;
+    $from.value = isNaN(curRes) ? 1 : curRes;
+    document.getElementById('labelFrom').textContent = currentFromName() + ' (' + currentFrom() + ')';
+    document.getElementById('labelTo').textContent   = currentToName()   + ' (' + currentTo()   + ')';
+    document.getElementById('fromUnit').textContent  = currentFrom();
+    document.getElementById('toUnit').textContent    = currentTo();
     liveRate = null;
-    $loading.style.display = 'block';
-    $ui.style.display = 'none';
-    $error.style.display = 'none';
     fetchRate();
   });
 
+  $from.addEventListener('input', update);
   $copy.addEventListener('click', function() { copyText($result.textContent, $copy); });
+  $scopy.addEventListener('click', function() { copyText(window.location.href, $scopy); });
 
-  // ── VISIT TRACKING ──────────────────────────────────────────
+  var urlV = new URLSearchParams(window.location.search).get('v');
+  if (urlV) $from.value = urlV;
+
+  /* VISIT TRACKING */
   (function() {
-    var PAGE = { url: '/currency/${slug}/', name: '${fromCode} to ${toCode}', cat: 'Currency' };
-    var KEY = 'cu_visits';
     try {
+      var KEY = 'cu_visits';
       var stored = JSON.parse(localStorage.getItem(KEY) || '{}');
-      var entry = stored[PAGE.url] || { name: PAGE.name, cat: PAGE.cat, url: PAGE.url, count: 0 };
+      var k = '/currency/${slug}/';
+      var entry = stored[k] || { name: '${fromCode} to ${toCode}', cat: 'Currency', url: k, count: 0 };
       entry.count += 1; entry.last = Date.now();
-      stored[PAGE.url] = entry;
+      stored[k] = entry;
       localStorage.setItem(KEY, JSON.stringify(stored));
     } catch(e) {}
   })();
 
   ${NAV_SEARCH_JS}
-
-  // ── INIT ────────────────────────────────────────────────────
   fetchRate();
 </script>
+</body>
 </html>`;
-}
-
-// Short about text per currency code
-function getCurrencyAbout(code) {
-  var about = {
-    USD: 'The United States Dollar is the world\'s primary reserve currency, used in the majority of global trade and financial transactions.',
-    EUR: 'The Euro is the official currency of 20 European Union member states, making it the second most traded currency in the world.',
-    GBP: 'The British Pound Sterling is one of the oldest currencies in existence and the fourth most traded currency globally.',
-    JPY: 'The Japanese Yen is the third most traded currency in the world and a common safe-haven asset during times of market uncertainty.',
-    CHF: 'The Swiss Franc is known for its stability and is considered a safe-haven currency, backed by Switzerland\'s strong financial system.',
-    AUD: 'The Australian Dollar is the fifth most traded currency globally, strongly influenced by commodity prices and the Asia-Pacific economy.',
-    CAD: 'The Canadian Dollar is closely tied to commodity prices, particularly oil, given Canada\'s role as a major energy exporter.',
-    CNY: 'The Chinese Yuan (Renminbi) is the official currency of China, the world\'s second largest economy and major global trading partner.',
-    HKD: 'The Hong Kong Dollar is pegged to the US Dollar and serves as an important currency in Asian financial markets.',
-    SGD: 'The Singapore Dollar is one of the strongest and most stable currencies in Asia, reflecting Singapore\'s role as a global financial hub.',
-    SEK: 'The Swedish Krona is the currency of Sweden, a highly developed economy known for its export-oriented industries.',
-    NOK: 'The Norwegian Krone is heavily influenced by oil prices, as Norway is one of the world\'s largest petroleum exporters.',
-    DKK: 'The Danish Krone is pegged to the Euro through the Exchange Rate Mechanism and is one of Europe\'s most stable currencies.',
-    NZD: 'The New Zealand Dollar is influenced by agricultural commodity prices and the country\'s close economic ties with Australia.',
-    MXN: 'The Mexican Peso is the most traded Latin American currency and is closely linked to the US economy due to NAFTA/USMCA trade.',
-    BRL: 'The Brazilian Real is the currency of South America\'s largest economy, influenced by commodity exports and political developments.',
-    INR: 'The Indian Rupee is the currency of the world\'s most populous country and one of the fastest-growing major economies.',
-    KRW: 'The South Korean Won is the currency of Asia\'s fourth largest economy, known for its technology and manufacturing exports.',
-    TRY: 'The Turkish Lira is the currency of Turkey, a major emerging market economy bridging Europe and the Middle East.',
-    ZAR: 'The South African Rand is the most traded African currency and a proxy for emerging market sentiment globally.',
-    AED: 'The UAE Dirham is pegged to the US Dollar and serves as the currency of the United Arab Emirates, a major global financial and trade hub.',
-    SAR: 'The Saudi Riyal is pegged to the US Dollar and is the currency of Saudi Arabia, the world\'s largest oil exporter.',
-    QAR: 'The Qatari Riyal is pegged to the US Dollar and is the currency of Qatar, one of the world\'s wealthiest nations per capita.',
-    KWD: 'The Kuwaiti Dinar is consistently one of the highest-valued currencies in the world, backed by Kuwait\'s vast oil reserves.',
-    BHD: 'The Bahraini Dinar is pegged to the US Dollar and is one of the highest-valued currencies globally.',
-    OMR: 'The Omani Rial is pegged to the US Dollar and is one of the highest-valued currencies in the world.',
-    EGP: 'The Egyptian Pound is the currency of Egypt, the most populous Arab country and a major regional economy.',
-    PLN: 'The Polish Zloty is the currency of Poland, Central Europe\'s largest economy and one of the EU\'s fastest-growing members.',
-    CZK: 'The Czech Koruna is the currency of the Czech Republic, a highly developed Central European economy.',
-    HUF: 'The Hungarian Forint is the currency of Hungary, a key manufacturing hub in Central Europe.',
-    RON: 'The Romanian Leu is the currency of Romania, one of the fastest-growing economies in the European Union.',
-    BGN: 'The Bulgarian Lev is pegged to the Euro and is the currency of Bulgaria, an EU member state in Southeast Europe.',
-    HRK: 'The Croatian Kuna was the currency of Croatia before the country adopted the Euro in 2023.',
-    THB: 'The Thai Baht is one of Southeast Asia\'s most stable currencies and the currency of a major tourist destination.',
-    MYR: 'The Malaysian Ringgit is the currency of Malaysia, a highly open and export-oriented economy in Southeast Asia.',
-    IDR: 'The Indonesian Rupiah is the currency of Southeast Asia\'s largest economy and one of the world\'s most populous nations.',
-    PHP: 'The Philippine Peso is the currency of the Philippines, an archipelago nation with a fast-growing service economy.',
-    VND: 'The Vietnamese Dong is the currency of Vietnam, one of Asia\'s fastest-growing manufacturing economies.',
-    PKR: 'The Pakistani Rupee is the currency of Pakistan, one of the world\'s most populous countries.',
-    BDT: 'The Bangladeshi Taka is the currency of Bangladesh, a major global garment exporter and fast-growing economy.',
-    ILS: 'The Israeli New Shekel is the currency of Israel, a highly developed economy known for its technology sector.',
-    CLP: 'The Chilean Peso is the currency of Chile, the world\'s largest copper producer and one of Latin America\'s most stable economies.',
-    COP: 'The Colombian Peso is the currency of Colombia, South America\'s third largest economy.',
-    ARS: 'The Argentine Peso is the currency of Argentina, one of South America\'s largest economies.',
-    PEN: 'The Peruvian Sol is the currency of Peru, a major South American economy and significant mineral exporter.',
-    DZD: 'The Algerian Dinar is the currency of Algeria, North Africa\'s largest country by area.',
-    MAD: 'The Moroccan Dirham is the currency of Morocco, a North African country with a diversified economy.',
-  };
-  return about[code] || 'A widely traded global currency used in international commerce and finance.';
 }
 
 module.exports.currencyConverterTemplate = currencyConverterTemplate;
@@ -1384,8 +1473,8 @@ function currencyHubTemplate(currencies, allCategories) {
   }).join('\n        ');
 
   return `${headPartial({ title, description: desc, canonical: url, schema })}
-${SHARED_CSS}
 <style>
+${SHARED_CSS}
   .cat-chip { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:0.5px solid var(--c-border); border-radius:var(--r-md); font-size:13px; font-weight:500; color:var(--c-text-1); background:var(--c-bg-1); text-decoration:none; transition:border-color .15s,background .15s; }
   .cat-chip:hover { border-color:var(--c-accent); background:var(--c-bg-2); }
   .cat-chip span { font-size:11px; color:var(--c-text-2); font-weight:400; }
@@ -1431,3 +1520,183 @@ ${footerPartial()}
 <script>${NAV_SEARCH_JS}</script>
 </html>`;
 }
+
+// ── GLOSSARY PAGE TEMPLATE ────────────────────────────────────
+function glossaryPageTemplate(unit, cat, relatedConverters, allCats) {
+  const url   = `${SITE.domain}/glossary/${unit.id}/`;
+  const title = `What is a ${unit.name.toLowerCase().replace(/s$/,'')}? Definition & conversions`;
+  const desc  = `${unit.name} (${unit.abbr}) — definition, conversion factors, and common uses. Convert ${unit.name.toLowerCase()} to other ${cat.name.toLowerCase()} units instantly.`;
+
+  const convLinks = relatedConverters.slice(0,8).map(c =>
+    `<a href="/${cat.id}/${c.slug}/" class="conv-pill">${c.fromName} → ${c.toName}</a>`
+  ).join('\n        ');
+
+  const schema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": unit.name,
+    "description": desc,
+    "inDefinedTermSet": { "@type": "DefinedTermSet", "name": cat.name + " units", "url": `${SITE.domain}/${cat.id}/` }
+  });
+
+  return `${headPartial({ title: `${title} | ChangingUnits`, description: desc, canonical: url, schema: JSON.parse(schema) })}
+  <style>
+  ${SHARED_CSS}
+  .page-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px;align-items:start;margin-top:20px;}
+  .main-col{display:flex;flex-direction:column;gap:14px;min-width:0;}
+  .page-title{font-size:26px;font-weight:600;color:var(--t1);letter-spacing:-0.5px;line-height:1.2;}
+  .card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:22px;box-shadow:var(--sh);}
+  .card-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:14px;}
+  .def-abbr{display:inline-block;font-size:28px;font-weight:700;color:var(--accent);letter-spacing:-0.5px;margin-bottom:6px;}
+  .def-text{font-size:14px;color:var(--t2);line-height:1.75;}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+  .conv-pill{display:inline-block;padding:5px 12px;background:var(--accent-light);border-radius:20px;font-size:12px;font-weight:500;color:var(--accent);text-decoration:none;transition:background 0.15s;}
+  .conv-pill:hover{background:#ddd6fe;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em;padding:0 10px 10px;text-align:left;border-bottom:1px solid var(--border);}
+  tbody td{padding:9px 10px;font-size:13px;border-bottom:1px solid var(--border);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td:first-child{color:var(--t2);}
+  tbody td:last-child{font-weight:500;color:var(--accent);}
+  .sidebar{display:flex;flex-direction:column;gap:12px;width:220px;}
+  .s-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r3);padding:14px;box-shadow:var(--sh);}
+  .s-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block;}
+  .s-links{display:flex;flex-direction:column;}
+  .s-link{display:flex;align-items:center;justify-content:space-between;padding:6px;border-radius:4px;font-size:12px;font-weight:500;color:var(--t2);text-decoration:none;transition:background 0.1s,color 0.1s;}
+  .s-link:hover{background:var(--bg-2);color:var(--t1);}
+  @media(max-width:760px){.page-grid{grid-template-columns:1fr;}.sidebar{display:none;}}
+  </style>
+</head>
+<body>
+${navPartial('glossary')}
+<main>
+<div class="page-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span>›</span>
+    <a href="/glossary/">Glossary</a><span>›</span>
+    <span class="current">${unit.name}</span>
+  </nav>
+  <div class="page-grid">
+    <div class="main-col">
+      <div>
+        <h1 class="page-title">What is a ${unit.name.replace(/s$/,'')}?</h1>
+      </div>
+      <div class="card">
+        <div class="card-label">Definition</div>
+        <div class="def-abbr">${unit.abbr}</div>
+        <p class="def-text">${unit.about || 'A unit of ' + cat.name.toLowerCase() + ' in the ' + unit.group + ' system.'}</p>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:12px;color:var(--t3);margin-bottom:4px;">Unit system</div>
+          <div style="font-size:13px;font-weight:500;color:var(--t1);">${unit.group}</div>
+        </div>
+      </div>
+      ${relatedConverters.length > 0 ? `
+      <div class="card">
+        <div class="card-label">Convert ${unit.name.toLowerCase()}</div>
+        <div class="pills">
+          ${convLinks}
+        </div>
+      </div>` : ''}
+      <div class="card">
+        <div class="card-label">All ${cat.name.toLowerCase()} units</div>
+        <table>
+          <thead><tr><th>Unit</th><th>Symbol</th><th>System</th></tr></thead>
+          <tbody>
+            ${cat.units.map(u => `<tr>
+              <td><a href="/glossary/${u.id}/" style="color:var(--accent);">${u.name}</a></td>
+              <td>${u.abbr}</td>
+              <td>${u.group}</td>
+            </tr>`).join('\n')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="s-card">
+        <span class="s-title">Converters</span>
+        <div class="s-links">
+          ${relatedConverters.slice(0,6).map(c =>
+            `<a href="/${cat.id}/${c.slug}/" class="s-link">${c.fromName} → ${c.toName}</a>`
+          ).join('\n          ')}
+          <a href="/${cat.id}/" class="s-link" style="color:var(--accent);margin-top:4px;">All ${cat.name.toLowerCase()} converters →</a>
+        </div>
+      </div>
+      <div class="s-card">
+        <span class="s-title">Categories</span>
+        <div class="s-links">
+          ${allCats.filter(c => c.id !== cat.id).map(c =>
+            `<a href="/${c.id}/" class="s-link">${c.emoji} ${c.name}</a>`
+          ).join('\n          ')}
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+</main>
+${footerPartial()}
+<script>${NAV_SEARCH_JS}</script>
+</body>
+</html>`;
+}
+
+// ── GLOSSARY HUB TEMPLATE ─────────────────────────────────────
+function glossaryHubTemplate(allCats) {
+  const url   = `${SITE.domain}/glossary/`;
+  const title = 'Unit Glossary — Definitions for Every Measurement Unit';
+  const desc  = 'Definitions, symbols, and conversion links for every unit on ChangingUnits — from meters and kilograms to smoots and lightsabers.';
+
+  const catSections = allCats.map(cat => `
+    <div class="gloss-section">
+      <h2 class="gloss-cat-title"><a href="/${cat.id}/">${cat.emoji} ${cat.name}</a></h2>
+      <div class="gloss-pills">
+        ${cat.units.map(u =>
+          `<a href="/glossary/${u.id}/" class="gloss-pill">${u.name} <span>${u.abbr}</span></a>`
+        ).join('\n        ')}
+      </div>
+    </div>`).join('\n');
+
+  const schema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "url": url,
+    "description": desc
+  });
+
+  return `${headPartial({ title: `${title} | ChangingUnits`, description: desc, canonical: url, schema: JSON.parse(schema) })}
+  <style>
+  ${SHARED_CSS}
+  .page-title{font-size:28px;font-weight:600;color:var(--t1);letter-spacing:-0.5px;margin-bottom:6px;}
+  .page-sub{font-size:14px;color:var(--t2);margin-bottom:32px;}
+  .gloss-section{margin-bottom:28px;}
+  .gloss-cat-title{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:10px;}
+  .gloss-cat-title a{color:var(--t1);text-decoration:none;}
+  .gloss-cat-title a:hover{color:var(--accent);}
+  .gloss-pills{display:flex;flex-wrap:wrap;gap:6px;}
+  .gloss-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-size:13px;font-weight:500;color:var(--t1);text-decoration:none;transition:border-color 0.15s,color 0.15s;}
+  .gloss-pill:hover{border-color:var(--accent);color:var(--accent);}
+  .gloss-pill span{font-size:11px;color:var(--t3);}
+  .divider{height:1px;background:var(--border);margin:8px 0 28px;}
+  </style>
+</head>
+<body>
+${navPartial('glossary')}
+<main>
+<div class="page-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span>›</span>
+    <span class="current">Glossary</span>
+  </nav>
+  <h1 class="page-title">Unit Glossary</h1>
+  <p class="page-sub">Definitions and conversion links for every measurement unit on ChangingUnits.</p>
+  ${catSections}
+</div>
+</main>
+${footerPartial()}
+<script>${NAV_SEARCH_JS}</script>
+</body>
+</html>`;
+}
+
+module.exports.glossaryPageTemplate = glossaryPageTemplate;
+module.exports.glossaryHubTemplate  = glossaryHubTemplate;

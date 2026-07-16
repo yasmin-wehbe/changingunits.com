@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About | ChangingUnits</title>
-  <meta name="description" content="Learn about ChangingUnits — a free, fast unit converter built for everyone.">
+  <title>About ChangingUnits — Free Unit Converter</title>
+  <meta name="description" content="ChangingUnits is a free, fast unit converter covering 1,500+ conversions across length, weight, temperature, area, volume, speed, energy, pressure and more.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.changingunits.com/about/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +24,7 @@
     body { font-family:var(--font); background:var(--bg-2); color:var(--t1); min-height:100vh; line-height:1.6; }
     a { color:var(--accent); text-decoration:none; }
     a:hover { text-decoration:underline; }
-    .nav {
-      position:sticky; top:0; z-index:100; height:60px; background:#fff;
-      border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 24px; gap:24px;
-    }
+    .nav { position:sticky; top:0; z-index:100; height:60px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 24px; gap:24px; }
     .logo { font-size:17px; font-weight:600; color:var(--t1); letter-spacing:-0.4px; }
     .logo span { color:var(--accent); }
     .nav-links { display:flex; gap:2px; margin-left:auto; }
@@ -40,65 +37,62 @@
     h2 { font-size:17px; font-weight:600; color:var(--t1); margin-bottom:10px; }
     p { font-size:14px; color:var(--t2); line-height:1.75; margin-bottom:12px; }
     p:last-child { margin-bottom:0; }
+    .stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+    .stat { background:var(--bg); border:1px solid var(--border); border-radius:var(--r3); padding:20px; box-shadow:var(--sh); text-align:center; }
+    .stat-num { font-size:28px; font-weight:600; color:var(--accent); letter-spacing:-0.5px; }
+    .stat-label { font-size:12px; color:var(--t3); margin-top:4px; }
     footer { border-top:1px solid var(--border); background:var(--bg); padding:28px 24px; margin-top:60px; }
     .footer-inner { max-width:720px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
     .footer-logo { font-size:15px; font-weight:600; color:var(--t1); }
     .footer-logo span { color:var(--accent); }
     .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
     .footer-links a { font-size:12px; color:var(--t2); }
-    .footer-links a:hover { color:var(--accent); }
     .footer-copy { font-size:11px; color:var(--t3); }
+    @media(max-width:500px){.stat-row{grid-template-columns:1fr 1fr;}}
   </style>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFLK3PVX9B"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-JFLK3PVX9B");
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-JFLK3PVX9B");</script>
 </head>
 <body>
 <header class="nav">
   <a href="/" class="logo">Changing<span>Units</span></a>
   <nav class="nav-links" aria-label="Site links">
     <a href="/" class="nav-link">Home</a>
-    <a href="/glossary/" class="nav-link">Glossary</a>
     <a href="/contact/" class="nav-link">Contact</a>
   </nav>
 </header>
 <main>
 <div class="page-wrap">
   <h1 class="page-title">About ChangingUnits</h1>
-  <p class="page-lead">A fast, free unit converter built for everyone — students, professionals, travellers, and curious minds.</p>
+  <p class="page-lead">A free unit converter that covers the conversions other sites miss — from BTU to kilojoules, PSI to bar, smoots to football fields, and 1,500 more.</p>
 
-  <!-- EDIT THE CONTENT BELOW THIS LINE -->
-
-  <div class="card">
-    <h2>What we do</h2>
-    <p>ChangingUnits is a free online tool that converts between hundreds of units across length, weight, temperature, area, volume, currency, energy, and more. Every converter is instant — results update as you type, no button press needed.</p>
-    <p>We cover units that other converters miss: obscure scientific units, regional measurements, and even a few fun ones like smoots and donkeypower.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">1,500+</div><div class="stat-label">Converter pages</div></div>
+    <div class="stat"><div class="stat-num">14</div><div class="stat-label">Categories</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Cost to use</div></div>
   </div>
 
   <div class="card">
-    <h2>Why we built this</h2>
-    <p>Most unit converter sites are cluttered, slow, and designed around desktop computers from 2008. We wanted something that felt modern, loaded fast on any device, and gave you the answer without getting in the way.</p>
-    <p>Every converter page is built to one standard: the tool is the first thing you see, it works immediately, and there's nothing between you and your answer.</p>
+    <h2>What ChangingUnits does</h2>
+    <p>Type a number and get an answer — no button press, no page reload, no signup. Every converter updates instantly as you type, works on any device, and shows a quick-reference table so you can scan common values without doing the calculation yourself.</p>
+    <p>The categories cover what people actually search for: the standard ones (length, weight, temperature, area, volume, speed) plus the ones Google's built-in converter doesn't handle — energy, pressure, fuel economy, data storage, angles, frequency, and time. There's also a fun units section for the more unusual requests: smoots, blue whales, lightsabers, and a few others.</p>
   </div>
 
   <div class="card">
-    <h2>Accuracy</h2>
-    <p>All conversions use exact or internationally recognised values. Where definitions differ between systems (such as US versus Imperial measurements), we clearly label which standard we are using. If you spot an error, please <a href="/contact/">let us know</a>.</p>
+    <h2>Accuracy and sources</h2>
+    <p>Every conversion factor comes from an internationally recognised definition. SI units follow the <a href="https://www.nist.gov/pml/owm/metric-si/si-units" target="_blank" rel="noopener noreferrer">NIST SI reference</a>. Imperial and US customary units use the exact statutory definitions (one inch = 25.4 mm exactly, one pound = 0.45359237 kg exactly, and so on). Where US and UK measurements differ — gallons, pints, tons — we label clearly which standard is being used.</p>
+    <p>If you find something that looks wrong, please <a href="/contact/">let us know</a>. We check every report.</p>
   </div>
 
   <div class="card">
-    <h2>Who is behind ChangingUnits</h2>
-    <!-- EDIT: Replace the text below with your own description -->
-    <p>ChangingUnits is an independent project. We are a small team passionate about building useful tools that are free and accessible to everyone, anywhere in the world.</p>
+    <h2>No clutter, no tricks</h2>
+    <p>The converter is the first thing on every page. There's no interstitial, no cookie wall, no "download our app" banner. The site is built as static HTML — it loads fast, works offline after the first visit, and has no tracking beyond standard Google Analytics.</p>
   </div>
 
-  <!-- EDIT THE CONTENT ABOVE THIS LINE -->
-
+  <div class="card">
+    <h2>Get in touch</h2>
+    <p>Questions, errors to report, or units you'd like to see added — use the <a href="/contact/">contact form</a> or email <a href="mailto:contact@changingunits.com">contact@changingunits.com</a> directly.</p>
+  </div>
 </div>
 </main>
 <footer>
@@ -106,12 +100,11 @@
     <div class="footer-logo">Changing<span>Units</span></div>
     <div class="footer-links">
       <a href="/about/">About</a>
-      <a href="/glossary/">Glossary</a>
       <a href="/contact/">Contact</a>
       <a href="/privacy-policy/">Privacy</a>
       <a href="/disclaimer/">Disclaimer</a>
     </div>
-    <div class="footer-copy">© 2026 ChangingUnits. All rights reserved.</div>
+    <div class="footer-copy">© 2026 ChangingUnits</div>
   </div>
 </footer>
 </body>
